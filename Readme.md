@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Иван Бедный](https://up.htmlacademy.ru/ecmascript/9/user/238584).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Бахтин](https://htmlacademy.ru/profile/id1006021).
 
 ---
 
