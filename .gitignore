@@ -13,3 +13,7 @@ node_modules/
 
 # Папка с собранными файлами проекта
 build/
+
+# Скрипт, сформированный сборщиком webpack
+bundle.js
+bundle.js.map
