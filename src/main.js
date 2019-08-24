@@ -56,7 +56,7 @@ render(siteBodyElement, filmObj.getElementFilmDetails(), Position.BEFOREEND);
 // Инициализация событий открытия попапа по нажатию на карточку фильма и его закрытия по нажатию на кнопку закрытия
 const initiatePopupOpenOnClickFilmCard = () => {
   const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
-  const filmCards = siteFilmsListElement.querySelectorAll(`.film-card`);
+  const filmCards = siteBodyElement.querySelectorAll(`.film-card`);
   filmCards.forEach((card) => {
     const cardClickHandler = () => {
       filmDetailsPopup.classList.remove(`visually-hidden`);
