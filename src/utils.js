@@ -27,3 +27,17 @@ export const unrender = (element) => {
     element.remove();
   }
 };
+
+// Другие вспомогательные функции
+export const getNewRandomArrayFromArray = (array, upperLimitOfRandomQuantity) => {
+  let newArray = [];
+  const quantityOfElements = Math.round(Math.random() * upperLimitOfRandomQuantity);
+  if (quantityOfElements !== 0) {
+    for (let i = 0; i < quantityOfElements; i++) {
+      const randomArrayIndex = Math.round(Math.random() * array.length);
+      newArray[i] = array[randomArrayIndex];
+      array.splice(randomArrayIndex, 1);
+    }
+  }
+  return newArray;
+};
