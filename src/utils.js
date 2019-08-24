@@ -10,18 +10,19 @@ export const createElement = (template) => {
 };
 
 // Рендер и анрендер для компонентов
-const render = (container, element, place) => {
+export const render = (container, element, place) => {
+  const el = element.cloneNode(true);
   switch (place) {
     case Position.AFTERBEGIN:
       container.prepend(element);
       break;
     case Position.BEFOREEND:
-      container.append(element);
+      container.appendChild(el);
       break;
   }
 };
 
-const unrender = (element) => {
+export const unrender = (element) => {
   if (element) {
     element.remove();
   }
