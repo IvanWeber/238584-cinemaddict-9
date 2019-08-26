@@ -14,7 +14,7 @@ export const render = (container, element, place) => {
   const el = element.cloneNode(true);
   switch (place) {
     case Position.AFTERBEGIN:
-      container.prepend(element);
+      container.prepend(el);
       break;
     case Position.BEFOREEND:
       container.appendChild(el);
