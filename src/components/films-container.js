@@ -1,6 +1,6 @@
 import {createElement} from '../utils.js';
 
-export class FilmsContainer {
+export default class FilmsContainer {
   constructor() {
     this._element = null;
   }

@@ -1,6 +1,6 @@
 import {createElement} from '../utils.js';
 
-export class MainNavigation {
+export default class MainNavigation {
   constructor() {
     this._element = null;
   }

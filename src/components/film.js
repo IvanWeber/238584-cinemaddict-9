@@ -1,7 +1,7 @@
 import {createElement} from '../utils.js';
 import {getNewRandomArrayFromArray} from '../utils.js';
 
-export class Film {
+export default class Film {
   constructor(title, description, rating, runTime, genres, releaseDate, comments, originalTitle, director, writers, actors, country, ageRating, isAddToWatchlist, isAlreadyWatched, isAddToFavorites, imageSrc) {
     this._title = title;
     this._description = description;

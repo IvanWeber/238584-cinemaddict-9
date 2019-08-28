@@ -1,6 +1,6 @@
 import {createElement} from '../utils.js';
 
-export class Profile {
+export default class Profile {
   constructor() {
     this._element = null;
   }

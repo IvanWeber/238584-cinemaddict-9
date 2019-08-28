@@ -1,6 +1,6 @@
 import {createElement} from '../utils.js';
 
-export class ShowMoreButton {
+export default class ShowMoreButton {
   constructor() {
     this._element = null;
   }

@@ -1,14 +1,14 @@
-import {Search} from './components/search.js';
-import {Sort} from './components/sort.js';
-import {ShowMoreButton} from './components/show-more-button.js';
+import Search from './components/search.js';
+import Sort from './components/sort.js';
+import ShowMoreButton from './components/show-more-button.js';
 import {Position} from './utils.js';
 import {render} from './utils.js';
 // import {unrender} from './utils.js';
-import {Profile} from './components/profile.js';
-import {MainNavigation} from './components/main-navigation.js';
-import {FilmsContainer} from './components/films-container.js';
-import {Film} from './components/film.js';
-import {LoadMore} from './components/load-more.js';
+import Profile from './components/profile.js';
+import MainNavigation from './components/main-navigation.js';
+import FilmsContainer from './components/films-container.js';
+import Film from './components/film.js';
+import LoadMore from './components/load-more.js';
 
 const NUMBER_OF_FILMS_IN_MAIN_LIST = 12;
 const NUMBER_OF_FILMS_IN_EXTRA_LIST = 2;
@@ -21,7 +21,7 @@ const mainNavObj = new MainNavigation();
 const filmsContainerObj = new FilmsContainer();
 // const filmObj = new Film(`The Great Flamarion`, `The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant. Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing her no good husband during one of their acts.`, `8.9`, `1h 18m`, [`Drama`, `Film-Noir`, `Mystery`], `30 March 1945 `, [`ohhh`, `awesome`, `bad movie`], `The Great Flamarion`, `Anthony Mann`, `Anne Wigton, Heinz Herald, Richard Weil`, `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`, `USA`, `18+`, false, false, false, `./images/posters/the-great-flamarion.jpg`);
 
-
+//
 const getFilmMockAr = (filmMockObj) => {
   let filmMockAr = Object.keys(filmMockObj).map(function (key) {
     return filmMockObj[key];
