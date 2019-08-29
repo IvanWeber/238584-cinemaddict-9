@@ -107,7 +107,7 @@ export const getMock = () => {
       true,
       false
     ][Math.round(Math.random())],
-    image: [
+    imageSrc: [
       `./images/posters/the-great-flamarion.jpg`,
       `./images/posters/sagebrush-trail.jpg`,
       `./images/posters/santa-claus-conquers-the-martians.jpg`,

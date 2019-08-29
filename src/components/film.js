@@ -1,24 +1,24 @@
-import {createElement, getNewRandomArrayFromArray} from '../utils.js';
+import {createElement} from '../utils.js';
 
 export default class Film {
-  constructor(title, description, rating, runTime, genres, releaseDate, comments, originalTitle, director, writers, actors, country, ageRating, isAddToWatchlist, isAlreadyWatched, isAddToFavorites, imageSrc) {
-    this._title = title;
-    this._description = description;
-    this._rating = rating;
-    this._runTime = runTime;
-    this._genres = genres;
-    this._releaseDate = releaseDate;
-    this._comments = comments;
-    this._originalTitle = originalTitle;
-    this._director = director;
-    this._writers = writers;
-    this._actors = actors;
-    this._country = country;
-    this._ageRating = ageRating;
-    this._isAddToWatchlist = isAddToWatchlist;
-    this._isAlreadyWatched = isAlreadyWatched;
-    this._isAddToFavorites = isAddToFavorites;
-    this._image = imageSrc;
+  constructor(args) {
+    this._title = args.title;
+    this._description = args.description;
+    this._rating = args.rating;
+    this._runTime = args.runTime;
+    this._genres = args.genres;
+    this._releaseDate = args.releaseDate;
+    this._comments = args.comments;
+    this._originalTitle = args.originalTitle;
+    this._director = args.director;
+    this._writers = args.writers;
+    this._actors = args.actors;
+    this._country = args.country;
+    this._ageRating = args.ageRating;
+    this._isAddToWatchlist = args.isAddToWatchlist;
+    this._isAlreadyWatched = args.isAlreadyWatched;
+    this._isAddToFavorites = args.isAddToFavorites;
+    this._image = args.imageSrc;
     this._elementFilmCard = null;
     this._elementFilmDetail = null;
   }
