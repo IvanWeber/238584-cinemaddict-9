@@ -4,6 +4,7 @@ import ShowMoreButton from './components/show-more-button.js';
 import {Position} from './utils.js';
 import {render} from './utils.js';
 // import {unrender} from './utils.js';
+import {getMock} from './data.js';
 import Profile from './components/profile.js';
 import MainNavigation from './components/main-navigation.js';
 import FilmsContainer from './components/films-container.js';
@@ -32,7 +33,7 @@ const getFilmMockAr = (filmMockObj) => {
 const getFilmsMock = () => {
   let filmsMock = [];
   for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-    filmsMock[i] = new Film(...getFilmMockAr(Film.getMock()));
+    filmsMock[i] = new Film(...getFilmMockAr(getMock()));
   }
   return filmsMock;
 };
