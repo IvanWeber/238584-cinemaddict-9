@@ -8,7 +8,8 @@ import {getMock} from './data.js';
 import Profile from './components/profile.js';
 import MainNavigation from './components/main-navigation.js';
 import FilmsContainer from './components/films-container.js';
-import Film from './components/film.js';
+import FilmCard from './components/film-card.js';
+import FilmDetails from './components/film-details.js';
 import LoadMore from './components/load-more.js';
 
 const NUMBER_OF_FILMS_IN_MAIN_LIST = 12;
@@ -20,11 +21,12 @@ const searchObj = new Search();
 const profileObj = new Profile();
 const mainNavObj = new MainNavigation();
 const filmsContainerObj = new FilmsContainer();
+const filmDetailsObj = new FilmDetails(getMock());
 
 const getFilmsMock = () => {
   let filmsMock = [];
   for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-    filmsMock[i] = new Film(getMock());
+    filmsMock[i] = new FilmCard(getMock());
   }
   return filmsMock;
 };
@@ -49,19 +51,19 @@ const siteFilmsExtraListElements = siteBodyElement.querySelectorAll(`.films-list
 
 
 for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-  render(siteFilmsListElement, filmsMock[i].getElementFilmCard(), Position.BEFOREEND);
+  render(siteFilmsListElement, filmsMock[i].getElement(), Position.BEFOREEND);
 }
 
 for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
-  render(siteFilmsExtraListElements[0].querySelector(`.films-list__container`), filmsMock[i].getElementFilmCard(), Position.BEFOREEND);
+  render(siteFilmsExtraListElements[0].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
 }
 
 for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
-  render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmsMock[i].getElementFilmCard(), Position.BEFOREEND);
+  render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
 }
 
 // Рендер скрытого попапа с детальной информацией о фильме
-render(siteBodyElement, filmsMock[0].getElementFilmDetails(), Position.BEFOREEND);
+render(siteBodyElement, filmDetailsObj.getElement(), Position.BEFOREEND);
 
 // Инициализация событий открытия попапа по нажатию на карточку фильма и его закрытия по нажатию на кнопку закрытия
 const initiatePopupOpenOnClickFilmCard = () => {

@@ -1,6 +1,6 @@
 import {createElement} from '../utils.js';
 
-export default class Film {
+export default class FilmDetails {
   constructor(args) {
     this._title = args.title;
     this._description = args.description;
@@ -19,55 +19,22 @@ export default class Film {
     this._isAlreadyWatched = args.isAlreadyWatched;
     this._isAddToFavorites = args.isAddToFavorites;
     this._image = args.imageSrc;
-    this._elementFilmCard = null;
-    this._elementFilmDetail = null;
+    this._element = null;
   }
 
-  getElementFilmCard() {
-    if (!this._elementFilmCard) {
-      this._elementFilmCard = createElement(this.getTemplateFilmCard());
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
     }
 
-    return this._elementFilmCard;
+    return this._element;
   }
 
-  removeElementFilmCard() {
-    this._elementFilmCard = null;
+  removeElement() {
+    this._element = null;
   }
 
-  getTemplateFilmCard() {
-    return `<article class="film-card">
-          <h3 class="film-card__title">${this._title}</h3>
-          <p class="film-card__rating">${this._rating}</p>
-          <p class="film-card__info">
-            <span class="film-card__year">${this._releaseDate}</span>
-            <span class="film-card__duration">${this._runTime}</span>
-            <span class="film-card__genre">${this._genres[0]}</span>
-          </p>
-          <img src="${this._image}" alt="" class="film-card__poster">
-          <p class="film-card__description">${this._description}</p>
-          <a class="film-card__comments">${this._comments.length} Comments</a>
-          <form class="film-card__controls">
-            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
-            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
-            <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
-          </form>
-        </article>`;
-  }
-
-  getElementFilmDetails() {
-    if (!this._elementFilmDetail) {
-      this._elementFilmDetail = createElement(this.getTemplateFilmDetails());
-    }
-
-    return this._elementFilmDetail;
-  }
-
-  removeElementFilmDetails() {
-    this._elementFilmDetail = null;
-  }
-
-  getTemplateFilmDetails() {
+  getTemplate() {
     const getGenresElement = () => {
       let genresElement = ``;
       this._genres.forEach((genre) => {
