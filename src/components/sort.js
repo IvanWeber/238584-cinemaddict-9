@@ -1,6 +1,6 @@
 import {createElement} from '../utils.js';
 
-export class Sort {
+export default class Sort {
   constructor() {
     this._element = null;
   }
@@ -13,7 +13,7 @@ export class Sort {
     return this._element;
   }
 
-  removeElementFilmCard() {
+  removeElement() {
     this._element = null;
   }
 

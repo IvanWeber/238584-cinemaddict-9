@@ -1,6 +1,6 @@
 import {createElement} from '../utils.js';
 
-export class Search {
+export default class Search {
   constructor() {
     this._element = null;
   }
@@ -13,7 +13,7 @@ export class Search {
     return this._element;
   }
 
-  removeElementFilmCard() {
+  removeElement() {
     this._element = null;
   }
 

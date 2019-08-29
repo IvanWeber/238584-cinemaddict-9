@@ -19,6 +19,9 @@ export const render = (container, element, place) => {
     case Position.BEFOREEND:
       container.appendChild(el);
       break;
+    default:
+      container.insertBefore(el, place);
+      break;
   }
 };
 

@@ -1,6 +1,6 @@
 import {createElement} from '../utils.js';
 
-export class ShowMoreButton {
+export default class ShowMoreButton {
   constructor() {
     this._element = null;
   }
@@ -13,7 +13,7 @@ export class ShowMoreButton {
     return this._element;
   }
 
-  removeElementFilmCard() {
+  removeElement() {
     this._element = null;
   }
 

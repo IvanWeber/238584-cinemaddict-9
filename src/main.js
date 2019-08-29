@@ -1,14 +1,17 @@
-import {Search} from './components/search.js';
-import {Sort} from './components/sort.js';
-import {ShowMoreButton} from './components/show-more-button.js';
+import Search from './components/search.js';
+import Sort from './components/sort.js';
+import ShowMoreButton from './components/show-more-button.js';
 import {Position} from './utils.js';
-import {render} from './utils.js';
-// import {unrender} from './utils.js';
-import {Profile} from './components/profile.js';
-import {MainNavigation} from './components/main-navigation.js';
-import {FilmsContainer} from './components/films-container.js';
-import {Film} from './components/film.js';
-import {LoadMore} from './components/load-more.js';
+import {render, unrender} from './utils.js';
+import {getMock} from './data.js';
+import Profile from './components/profile.js';
+import MainNavigation from './components/main-navigation.js';
+import FilmsContainer from './components/films-container.js';
+import FilmCard from './components/film-card.js';
+import FilmDetails from './components/film-details.js';
+import LoadMore from './components/load-more.js';
+import SearchNoResult from './components/search-no-result.js';
+
 
 const NUMBER_OF_FILMS_IN_MAIN_LIST = 12;
 const NUMBER_OF_FILMS_IN_EXTRA_LIST = 2;
@@ -19,27 +22,18 @@ const searchObj = new Search();
 const profileObj = new Profile();
 const mainNavObj = new MainNavigation();
 const filmsContainerObj = new FilmsContainer();
-// const filmObj = new Film(`The Great Flamarion`, `The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant. Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing her no good husband during one of their acts.`, `8.9`, `1h 18m`, [`Drama`, `Film-Noir`, `Mystery`], `30 March 1945 `, [`ohhh`, `awesome`, `bad movie`], `The Great Flamarion`, `Anthony Mann`, `Anne Wigton, Heinz Herald, Richard Weil`, `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`, `USA`, `18+`, false, false, false, `./images/posters/the-great-flamarion.jpg`);
-
-
-const getFilmMockAr = (filmMockObj) => {
-  let filmMockAr = Object.keys(filmMockObj).map(function (key) {
-    return filmMockObj[key];
-  });
-  return filmMockAr;
-};
+const filmDetailsObj = new FilmDetails(getMock());
+const searchNoResultObj = new SearchNoResult();
 
 const getFilmsMock = () => {
   let filmsMock = [];
   for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-    filmsMock[i] = new Film(...getFilmMockAr(Film.getMock()));
+    filmsMock[i] = new FilmCard(getMock());
   }
   return filmsMock;
 };
 
 const filmsMock = getFilmsMock();
-
-// const filmObj = new Film(...filmMockAr);
 
 const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
@@ -59,24 +53,27 @@ const siteFilmsExtraListElements = siteBodyElement.querySelectorAll(`.films-list
 
 
 for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-  render(siteFilmsListElement, filmsMock[i].getElementFilmCard(), Position.BEFOREEND);
+  render(siteFilmsListElement, filmsMock[i].getElement(), Position.BEFOREEND);
 }
 
 for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
-  render(siteFilmsExtraListElements[0].querySelector(`.films-list__container`), filmsMock[i].getElementFilmCard(), Position.BEFOREEND);
+  render(siteFilmsExtraListElements[0].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
 }
 
 for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
-  render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmsMock[i].getElementFilmCard(), Position.BEFOREEND);
+  render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
 }
 
 // Рендер скрытого попапа с детальной информацией о фильме
-render(siteBodyElement, filmsMock[0].getElementFilmDetails(), Position.BEFOREEND);
+render(siteBodyElement, filmDetailsObj.getElement(), Position.BEFOREEND);
 
 // Инициализация событий открытия попапа по нажатию на карточку фильма и его закрытия по нажатию на кнопку закрытия
+const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
+const filmCards = siteBodyElement.querySelectorAll(`.film-card`);
+const closeButton = filmDetailsPopup.querySelector(`.film-details__close-btn`);
+const filmDetailsCommentInput = filmDetailsPopup.querySelector(`.film-details__comment-input`);
+
 const initiatePopupOpenOnClickFilmCard = () => {
-  const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
-  const filmCards = siteBodyElement.querySelectorAll(`.film-card`);
   filmCards.forEach((card) => {
     const cardClickHandler = () => {
       filmDetailsPopup.classList.remove(`visually-hidden`);
@@ -87,16 +84,34 @@ const initiatePopupOpenOnClickFilmCard = () => {
 
 
 const initiatePopupCloseOnClickCloseButton = () => {
-  const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
-  const closeButton = filmDetailsPopup.querySelector(`.film-details__close-btn`);
   const closeButtonClickHandler = () => {
     filmDetailsPopup.classList.add(`visually-hidden`);
   };
   closeButton.addEventListener(`click`, closeButtonClickHandler);
 };
 
+const initiatePopupCloseOnKeydownEsc = () => {
+  const popupKeydownEscHandler = (evt) => {
+    if (evt.keyCode === 27) {
+      filmDetailsPopup.classList.add(`visually-hidden`);
+    }
+  };
+  document.addEventListener(`keydown`, popupKeydownEscHandler);
+};
+
+const initiateStopEventPropagationOnKeydownEscOnCommentInput = () => {
+  const commentInputKeydownEscHandler = (evt) => {
+    if (evt.keyCode === 27) {
+      evt.stopPropagation();
+    }
+  };
+  filmDetailsCommentInput.addEventListener(`keydown`, commentInputKeydownEscHandler);
+};
+
 initiatePopupOpenOnClickFilmCard();
 initiatePopupCloseOnClickCloseButton();
+initiatePopupCloseOnKeydownEsc();
+initiateStopEventPropagationOnKeydownEscOnCommentInput();
 
 // Рендерим кнопку load more
 render(siteFilmsMainContainerElement, showMoreButtonObj.getElement(), Position.BEFOREEND);
@@ -105,3 +120,15 @@ const cards = cardsWrap.querySelectorAll(`.film-card`);
 const buttonLoadMore = document.querySelector(`.films-list__show-more`);
 const loadMoreButton = new LoadMore(cardsWrap, cards, buttonLoadMore, 5);
 loadMoreButton.initiateLoadMoreButton();
+
+// Если нет фильмов, отрисовываем соответствующую вёрстку
+const siteFooterElement = siteBodyElement.querySelector(`.footer`);
+
+const renderNoResultIfNoFilms = () => {
+  if (siteMainElement.querySelectorAll(`.film-card`).length === 0) {
+    unrender(siteMainElement);
+    render(siteBodyElement, searchNoResultObj.getElement(), siteFooterElement);
+  }
+};
+
+renderNoResultIfNoFilms();

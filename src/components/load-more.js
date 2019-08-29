@@ -1,4 +1,4 @@
-export class LoadMore {
+export default class LoadMore {
   constructor(cardsWrap, cards, button, cardsFeed) {
     this._cardsWrap = cardsWrap;
     this._cards = cards;

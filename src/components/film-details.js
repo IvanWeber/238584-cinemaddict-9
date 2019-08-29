@@ -1,191 +1,40 @@
 import {createElement} from '../utils.js';
-import {getNewRandomArrayFromArray} from '../utils.js';
 
-export class Film {
-  constructor(title, description, rating, runTime, genres, releaseDate, comments, originalTitle, director, writers, actors, country, ageRating, isAddToWatchlist, isAlreadyWatched, isAddToFavorites, imageSrc) {
-    this._title = title;
-    this._description = description;
-    this._rating = rating;
-    this._runTime = runTime;
-    this._genres = genres;
-    this._releaseDate = releaseDate;
-    this._comments = comments;
-    this._originalTitle = originalTitle;
-    this._director = director;
-    this._writers = writers;
-    this._actors = actors;
-    this._country = country;
-    this._ageRating = ageRating;
-    this._isAddToWatchlist = isAddToWatchlist;
-    this._isAlreadyWatched = isAlreadyWatched;
-    this._isAddToFavorites = isAddToFavorites;
-    this._image = imageSrc;
-    this._elementFilmCard = null;
-    this._elementFilmDetail = null;
+export default class FilmDetails {
+  constructor(args) {
+    this._title = args.title;
+    this._description = args.description;
+    this._rating = args.rating;
+    this._runTime = args.runTime;
+    this._genres = args.genres;
+    this._releaseDate = args.releaseDate;
+    this._comments = args.comments;
+    this._originalTitle = args.originalTitle;
+    this._director = args.director;
+    this._writers = args.writers;
+    this._actors = args.actors;
+    this._country = args.country;
+    this._ageRating = args.ageRating;
+    this._isAddToWatchlist = args.isAddToWatchlist;
+    this._isAlreadyWatched = args.isAlreadyWatched;
+    this._isAddToFavorites = args.isAddToFavorites;
+    this._image = args.imageSrc;
+    this._element = null;
   }
 
-  static getMock() {
-    const commentsVariants = [
-      `Interesting setting and a good cast`,
-      `Booooooooooring`,
-      `Very very old. Meh`,
-      `Interesting setting and a good cast`,
-      `Cool`,
-    ];
-    const genresVariants = [
-      `Musical`,
-      `Western`,
-      `Drama`,
-      `Comedy`,
-      `Cartoon`,
-    ];
-    return {
-      title: [
-        `The Dance of Life`,
-        `Sagebrush Trail`,
-        `The Man with the Golden Arm`,
-        `Santa Claus Conquers the Martians`,
-        `Popeye the Sailor Meets Sindbad the Sailor`,
-      ][Math.round(Math.random() * 4)],
-      description: [
-        `Burlesque comic Ralph "Skid" Johnson (Skelly), and specialty dancer Bonny Lee King (Carroll), end up together on a cold, rainy night at a tr…`,
-        `Sentenced for a murder he did not commit, John Brant escapes from prison determined to find the real killer. By chance Brant's narrow escap…`,
-        `Frankie Machine (Frank Sinatra) is released from the federal Narcotic Farm in Lexington, Kentucky with a set of drums and a new outlook on…`,
-        `The Martians Momar ("Mom Martian") and Kimar ("King Martian") are worried that their children Girmar ("Girl Martian") and Bomar ("Boy Marti…`,
-        `In this short, Sindbad the Sailor (presumably Bluto playing a "role") proclaims himself, in song, to be the greatest sailor, adventurer and…`,
-      ][Math.round(Math.random() * 4)],
-      rating: [
-        `8.3`,
-        `5.3`,
-        `6.5`,
-        `3.1`,
-        `4.9`,
-      ][Math.round(Math.random() * 4)],
-      runTime: [
-        `1h 59m`,
-        `1h 30m`,
-        `1h 10m`,
-        `2h 10m`,
-        `1h 15m`,
-      ][Math.round(Math.random() * 4)],
-      genres: getNewRandomArrayFromArray(genresVariants, 3),
-      releaseDate: [
-        `30 March 1945`,
-        `12 June 1935`,
-        `17 August 1923`,
-        `29 November 1933`,
-        `11 October 1951`,
-      ][Math.round(Math.random() * 4)],
-      comments: getNewRandomArrayFromArray(commentsVariants, 4),
-      originalTitle: [
-        `The Dance of Life`,
-        `Sagebrush Trail`,
-        `The Man with the Golden Arm`,
-        `Santa Claus Conquers the Martians`,
-        `Popeye the Sailor Meets Sindbad the Sailor`,
-      ][Math.round(Math.random() * 4)],
-      director: [
-        `Anthony Mann`,
-        `Quentin Tarantino`,
-        `Ridley Scott`,
-        `David Lynch`,
-        `Martin Scorsese`,
-      ][Math.round(Math.random() * 4)],
-      writers: [
-        `Anthony Mann, Quentin Tarantino`,
-        `Quentin Tarantino, David Lynch`,
-        `Ridley Scott, Martin Scorsese`,
-        `David Lynch, Martin Scorsese`,
-        `Martin Scorsese, David Lynch`,
-      ][Math.round(Math.random() * 4)],
-      actors: [
-        `Julianne Moore, John Travolta`,
-        `Anthony Hopkins, Robert De Niro`,
-        `Samuel Leroy Jackson`,
-        `John Travolta, Anthony Hopkins`,
-        `Robert De Niro, Samuel Leroy Jackson`,
-      ][Math.round(Math.random() * 4)],
-      country: [
-        `USA`,
-        `Russia`,
-        `USSR`,
-        `Great Britain`,
-        `France`,
-      ][Math.round(Math.random() * 4)],
-      ageRating: [
-        `3+`,
-        `7+`,
-        `12+`,
-        `16+`,
-        `18+`,
-      ][Math.round(Math.random() * 4)],
-      isAddToWatchlist: [
-        true,
-        false
-      ][Math.round(Math.random())],
-      isAlreadyWatched: [
-        true,
-        false
-      ][Math.round(Math.random())],
-      isAddToFavorites: [
-        true,
-        false
-      ][Math.round(Math.random())],
-      image: [
-        `./images/posters/the-great-flamarion.jpg`,
-        `./images/posters/sagebrush-trail.jpg`,
-        `./images/posters/santa-claus-conquers-the-martians.jpg`,
-        `./images/posters/the-dance-of-life.jpg`,
-        `./images/posters/the-man-with-the-golden-arm.jpg`,
-      ][Math.round(Math.random() * 4)]
-    };
-  }
-
-  getElementFilmCard() {
-    if (!this._elementFilmCard) {
-      this._elementFilmCard = createElement(this.getTemplateFilmCard());
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
     }
 
-    return this._elementFilmCard;
+    return this._element;
   }
 
-  removeElementFilmCard() {
-    this._elementFilmCard = null;
+  removeElement() {
+    this._element = null;
   }
 
-  getTemplateFilmCard() {
-    return `<article class="film-card">
-          <h3 class="film-card__title">${this._title}</h3>
-          <p class="film-card__rating">${this._rating}</p>
-          <p class="film-card__info">
-            <span class="film-card__year">${this._releaseDate}</span>
-            <span class="film-card__duration">${this._runTime}</span>
-            <span class="film-card__genre">${this._genres[0]}</span>
-          </p>
-          <img src="${this._image}" alt="" class="film-card__poster">
-          <p class="film-card__description">${this._description}</p>
-          <a class="film-card__comments">${this._comments.length} Comments</a>
-          <form class="film-card__controls">
-            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
-            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
-            <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
-          </form>
-        </article>`;
-  }
-
-  getElementFilmDetails() {
-    if (!this._elementFilmDetail) {
-      this._elementFilmDetail = createElement(this.getTemplateFilmDetails());
-    }
-
-    return this._elementFilmDetail;
-  }
-
-  removeElementFilmDetails() {
-    this._elementFilmDetail = null;
-  }
-
-  getTemplateFilmDetails() {
+  getTemplate() {
     const getGenresElement = () => {
       let genresElement = ``;
       this._genres.forEach((genre) => {
