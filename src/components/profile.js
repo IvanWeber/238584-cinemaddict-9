@@ -13,7 +13,7 @@ export default class Profile {
     return this._element;
   }
 
-  removeElementFilmCard() {
+  removeElement() {
     this._element = null;
   }
 

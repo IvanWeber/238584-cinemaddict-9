@@ -11,6 +11,8 @@ import FilmsContainer from './components/films-container.js';
 import FilmCard from './components/film-card.js';
 import FilmDetails from './components/film-details.js';
 import LoadMore from './components/load-more.js';
+import Popup from './components/popup.js';
+
 
 const NUMBER_OF_FILMS_IN_MAIN_LIST = 12;
 const NUMBER_OF_FILMS_IN_EXTRA_LIST = 2;
@@ -66,9 +68,12 @@ for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
 render(siteBodyElement, filmDetailsObj.getElement(), Position.BEFOREEND);
 
 // Инициализация событий открытия попапа по нажатию на карточку фильма и его закрытия по нажатию на кнопку закрытия
+const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
+const filmCards = siteBodyElement.querySelectorAll(`.film-card`);
+const closeButton = filmDetailsPopup.querySelector(`.film-details__close-btn`);
+const filmDetailsCommentInput = filmDetailsPopup.querySelector(`.film-details__comment-input`);
+
 const initiatePopupOpenOnClickFilmCard = () => {
-  const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
-  const filmCards = siteBodyElement.querySelectorAll(`.film-card`);
   filmCards.forEach((card) => {
     const cardClickHandler = () => {
       filmDetailsPopup.classList.remove(`visually-hidden`);
@@ -79,16 +84,34 @@ const initiatePopupOpenOnClickFilmCard = () => {
 
 
 const initiatePopupCloseOnClickCloseButton = () => {
-  const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
-  const closeButton = filmDetailsPopup.querySelector(`.film-details__close-btn`);
   const closeButtonClickHandler = () => {
     filmDetailsPopup.classList.add(`visually-hidden`);
   };
   closeButton.addEventListener(`click`, closeButtonClickHandler);
 };
 
+const initiatePopupCloseOnKeydownEsc = () => {
+  const popupKeydownEscHandler = (evt) => {
+    if (evt.keyCode === 27) {
+      filmDetailsPopup.classList.add(`visually-hidden`);
+    }
+  };
+  document.addEventListener(`keydown`, popupKeydownEscHandler);
+};
+
+const initiateStopEventPropagationOnKeydownEscOnCommentInput = () => {
+  const commentInputKeydownEscHandler = (evt) => {
+    if (evt.keyCode === 27) {
+      evt.stopPropagation();
+    }
+  };
+  filmDetailsCommentInput.addEventListener(`keydown`, commentInputKeydownEscHandler);
+};
+
 initiatePopupOpenOnClickFilmCard();
 initiatePopupCloseOnClickCloseButton();
+initiatePopupCloseOnKeydownEsc();
+initiateStopEventPropagationOnKeydownEscOnCommentInput();
 
 // Рендерим кнопку load more
 render(siteFilmsMainContainerElement, showMoreButtonObj.getElement(), Position.BEFOREEND);
