@@ -1,15 +1,28 @@
 import {createElement} from '../utils.js';
 
-export class AbstractComponent {
+export default class AbstractComponent {
+
   constructor() {
-    this._element = null;
+    // Абстрактные методы класса
+    this._abstractMethods = [
+      `getTemplate`, // Получить шаблон компонента
+    ];
+    // Проверка на создание экземпляра абстрактного класса.
+    if (new.target === AbstractComponent) {
+      throw new TypeError(`Can't instantiate AbstractComponent, only concrete one.`);
+    }
+    // Проверка на заданность абстрактных методов в дочернем классе
+    this._abstractMethods.forEach((method) => {
+      if (this[method] === undefined) {
+        throw new TypeError(`In ${this.constructor.name} abstract method not implemented: ${method}`);
+      }
+    });
   }
 
   getElement() {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
     }
-
     return this._element;
   }
 
@@ -17,7 +30,4 @@ export class AbstractComponent {
     this._element = null;
   }
 
-  getTemplate() {
-    throw Error(`Abstract method not implemented`);
-  }
 }
