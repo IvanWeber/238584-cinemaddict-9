@@ -1,14 +1,13 @@
 import Search from '../components/search.js';
 import Sort from '../components/sort.js';
 import ShowMoreButton from '../components/show-more-button.js';
-import {render, unrender, Position} from '../utils.js';
+import {render, unrender, initiateLoadMoreButton, Position} from '../utils.js';
 import {getMock} from '../data.js';
 import Profile from '../components/profile.js';
 import MainNavigation from '../components/main-navigation.js';
 import FilmsContainer from '../components/films-container.js';
 import FilmCard from '../components/film-card.js';
 import FilmDetails from '../components/film-details.js';
-import LoadMore from '../components/load-more.js';
 import SearchNoResult from '../components/search-no-result.js';
 
 export default class PageController {
@@ -123,8 +122,9 @@ export default class PageController {
     const cardsWrap = document.querySelector(`.films-list__container`);
     const cards = cardsWrap.querySelectorAll(`.film-card`);
     const buttonLoadMore = document.querySelector(`.films-list__show-more`);
-    const loadMoreButton = new LoadMore(cardsWrap, cards, buttonLoadMore, 5);
-    loadMoreButton.initiateLoadMoreButton();
+    // const loadMoreButton = new LoadMore(cardsWrap, cards, buttonLoadMore, 5);
+    // loadMoreButton.initiateLoadMoreButton();
+    initiateLoadMoreButton(cardsWrap, cards, buttonLoadMore, 5);
 
     // Если нет фильмов, отрисовываем соответствующую вёрстку
     const siteFooterElement = siteBodyElement.querySelector(`.footer`);

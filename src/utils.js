@@ -44,3 +44,28 @@ export const getNewRandomArrayFromArray = (array, upperLimitOfRandomQuantity) =>
   }
   return newArray;
 };
+
+// Кнопка Show more
+
+export const initiateLoadMoreButton = (cardsWrap, cards, buttonLoadMore, cardsFeed) => {
+  if (cards.length > cardsFeed) {
+    for (let i = cardsFeed; i < cards.length; i++) {
+      cards[i].classList.add(`visually-hidden`);
+    }
+  }
+
+  const showNextCards = () => {
+    const visuallyHiddenCards = document.querySelectorAll(`.film-card.visually-hidden`);
+    if (visuallyHiddenCards.length > cardsFeed) {
+      for (let k = 0; k < cardsFeed; k++) {
+        visuallyHiddenCards[k].classList.remove(`visually-hidden`);
+      }
+    } else {
+      for (let k = 0; k < visuallyHiddenCards.length; k++) {
+        visuallyHiddenCards[k].classList.remove(`visually-hidden`);
+      }
+      buttonLoadMore.classList.add(`visually-hidden`);
+    }
+  };
+  buttonLoadMore.addEventListener(`click`, showNextCards);
+};
