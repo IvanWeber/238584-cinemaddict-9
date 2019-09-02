@@ -1,7 +1,8 @@
-import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component.js';
 
-export default class FilmDetails {
+export default class FilmDetails extends AbstractComponent {
   constructor(args) {
+    super();
     this._title = args.title;
     this._description = args.description;
     this._rating = args.rating;
@@ -19,19 +20,6 @@ export default class FilmDetails {
     this._isAlreadyWatched = args.isAlreadyWatched;
     this._isAddToFavorites = args.isAddToFavorites;
     this._image = args.imageSrc;
-    this._element = null;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 
   getTemplate() {
