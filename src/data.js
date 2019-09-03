@@ -1,4 +1,5 @@
-import {getNewRandomArrayFromArray} from "./utils";
+import {getNewRandomArrayFromArray} from './utils';
+import FilmCard from './components/film-card';
 
 export const getMock = () => {
   const commentsVariants = [
@@ -115,4 +116,14 @@ export const getMock = () => {
       `./images/posters/the-man-with-the-golden-arm.jpg`,
     ][Math.round(Math.random() * 4)]
   };
+};
+
+// Получение массива фильмов
+
+export const getFilmsMock = (numberOfFilmsInMainList) => {
+  let filmsMock = [];
+  for (let i = 0; i < numberOfFilmsInMainList; i++) {
+    filmsMock[i] = new FilmCard(getMock());
+  }
+  return filmsMock;
 };

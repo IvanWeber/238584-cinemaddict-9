@@ -6,7 +6,6 @@ import {getMock} from '../data.js';
 import Profile from '../components/profile.js';
 import MainNavigation from '../components/main-navigation.js';
 import FilmsContainer from '../components/films-container.js';
-import FilmCard from '../components/film-card.js';
 import FilmDetails from '../components/film-details.js';
 import SearchNoResult from '../components/search-no-result.js';
 
@@ -29,17 +28,9 @@ export default class PageController {
     const filmDetailsObj = new FilmDetails(getMock());
     const searchNoResultObj = new SearchNoResult();
 
-    const getFilmsMock = () => {
-      let filmsMock = [];
-      for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-        filmsMock[i] = new FilmCard(getMock());
-      }
-      return filmsMock;
-    };
+    const filmsMock = this._films;
 
-    const filmsMock = getFilmsMock();
-
-    const siteBodyElement = document.querySelector(`body`);
+    const siteBodyElement = this._container;
     const siteHeaderElement = siteBodyElement.querySelector(`.header`);
     const siteMainElement = siteBodyElement.querySelector(`.main`);
 
@@ -122,8 +113,6 @@ export default class PageController {
     const cardsWrap = document.querySelector(`.films-list__container`);
     const cards = cardsWrap.querySelectorAll(`.film-card`);
     const buttonLoadMore = document.querySelector(`.films-list__show-more`);
-    // const loadMoreButton = new LoadMore(cardsWrap, cards, buttonLoadMore, 5);
-    // loadMoreButton.initiateLoadMoreButton();
     initiateLoadMoreButton(cardsWrap, cards, buttonLoadMore, 5);
 
     // Если нет фильмов, отрисовываем соответствующую вёрстку
