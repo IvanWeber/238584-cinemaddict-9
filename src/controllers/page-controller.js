@@ -1,7 +1,7 @@
 import Search from '../components/search.js';
 import Sort from '../components/sort.js';
 import ShowMoreButton from '../components/show-more-button.js';
-import {render, unrender, initiateLoadMoreButton, Position} from '../utils.js';
+import {render, unrender, initiateLoadMoreButton, initiateSortFilmsButtons, Position} from '../utils.js';
 import {getMock} from '../data.js';
 import Profile from '../components/profile.js';
 import MainNavigation from '../components/main-navigation.js';
@@ -20,7 +20,6 @@ export default class PageController {
     const NUMBER_OF_FILMS_IN_EXTRA_LIST = 2;
 
     const sortObj = new Sort();
-    const showMoreButtonObj = new ShowMoreButton();
     const searchObj = new Search();
     const profileObj = new Profile();
     const mainNavObj = new MainNavigation();
@@ -109,6 +108,7 @@ export default class PageController {
     initiateStopEventPropagationOnKeydownEscOnCommentInput();
 
     // Рендерим кнопку load more
+    const showMoreButtonObj = new ShowMoreButton();
     render(siteFilmsMainContainerElement, showMoreButtonObj.getElement(), Position.BEFOREEND);
     const cardsWrap = document.querySelector(`.films-list__container`);
     const cards = cardsWrap.querySelectorAll(`.film-card`);
@@ -126,5 +126,8 @@ export default class PageController {
     };
 
     renderNoResultIfNoFilms();
+
+    // Инициализация работы меню сортировки
+    initiateSortFilmsButtons(this._container, this._films);
   }
 }

@@ -1,5 +1,5 @@
-import {getNewRandomArrayFromArray} from './utils';
-import FilmCard from './components/film-card';
+import {getNewRandomArrayFromArray} from './utils.js';
+import FilmCard from './components/film-card.js';
 
 export const getMock = () => {
   const commentsVariants = [
@@ -52,6 +52,13 @@ export const getMock = () => {
       `17 August 1923`,
       `29 November 1933`,
       `11 October 1951`,
+    ][Math.round(Math.random() * 4)],
+    releaseDateTimestamp: [
+      1567551459,
+      1567451459,
+      1567351459,
+      1567251459,
+      1567151459,
     ][Math.round(Math.random() * 4)],
     comments: getNewRandomArrayFromArray(commentsVariants, 4),
     originalTitle: [

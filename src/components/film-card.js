@@ -9,6 +9,7 @@ export default class FilmCard extends AbstractComponent {
     this._runTime = args.runTime;
     this._genres = args.genres;
     this._releaseDate = args.releaseDate;
+    this._releaseDateTimestamp = args.releaseDateTimestamp;
     this._comments = args.comments;
     this._isAddToWatchlist = args.isAddToWatchlist;
     this._isAlreadyWatched = args.isAlreadyWatched;
