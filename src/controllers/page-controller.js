@@ -1,7 +1,7 @@
 import Search from '../components/search.js';
 import Sort from '../components/sort.js';
 import ShowMoreButton from '../components/show-more-button.js';
-import {unrender, initiateLoadMoreButton, Position} from '../utils.js';
+import {initiateLoadMoreButton, Position} from '../utils.js';
 import {getMock} from '../data.js';
 import Profile from '../components/profile.js';
 import MainNavigation from '../components/main-navigation.js';
