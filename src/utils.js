@@ -11,28 +11,6 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-// Рендер и анрендер для компонентов
-export const render = (container, element, place) => {
-  const el = element.cloneNode(true);
-  switch (place) {
-    case Position.AFTERBEGIN:
-      container.prepend(el);
-      break;
-    case Position.BEFOREEND:
-      container.appendChild(el);
-      break;
-    default:
-      container.insertBefore(el, place);
-      break;
-  }
-};
-
-export const unrender = (element) => {
-  if (element) {
-    element.remove();
-  }
-};
-
 // Другие вспомогательные функции
 export const getNewRandomArrayFromArray = (array, upperLimitOfRandomQuantity) => {
   let newArray = [];

@@ -1,7 +1,7 @@
 import Search from '../components/search.js';
 import Sort from '../components/sort.js';
 import ShowMoreButton from '../components/show-more-button.js';
-import {render, unrender, initiateLoadMoreButton, Position} from '../utils.js';
+import {unrender, initiateLoadMoreButton, Position} from '../utils.js';
 import {getMock} from '../data.js';
 import Profile from '../components/profile.js';
 import MainNavigation from '../components/main-navigation.js';
@@ -13,6 +13,27 @@ export default class PageController {
   constructor(container, films) {
     this._container = container;
     this._films = films;
+  }
+
+  render(container, element, place) {
+    const el = element.cloneNode(true);
+    switch (place) {
+      case Position.AFTERBEGIN:
+        container.prepend(el);
+        break;
+      case Position.BEFOREEND:
+        container.appendChild(el);
+        break;
+      default:
+        container.insertBefore(el, place);
+        break;
+    }
+  }
+
+  unrender(element) {
+    if (element) {
+      element.remove();
+    }
   }
 
   init() {
@@ -33,13 +54,13 @@ export default class PageController {
     const siteHeaderElement = siteBodyElement.querySelector(`.header`);
     const siteMainElement = siteBodyElement.querySelector(`.main`);
 
-    render(siteHeaderElement, searchObj.getElement(), Position.BEFOREEND);
-    render(siteHeaderElement, profileObj.getElement(), Position.BEFOREEND);
-    render(siteMainElement, mainNavObj.getElement(), Position.BEFOREEND);
-    render(siteMainElement, sortObj.getElement(), Position.BEFOREEND);
+    this.render(siteHeaderElement, searchObj.getElement(), Position.BEFOREEND);
+    this.render(siteHeaderElement, profileObj.getElement(), Position.BEFOREEND);
+    this.render(siteMainElement, mainNavObj.getElement(), Position.BEFOREEND);
+    this.render(siteMainElement, sortObj.getElement(), Position.BEFOREEND);
 
     // Рендер контейнера для основного списка фильмов и двух дополнительных списков
-    render(siteMainElement, filmsContainerObj.getElement(), Position.BEFOREEND);
+    this.render(siteMainElement, filmsContainerObj.getElement(), Position.BEFOREEND);
 
     const siteFilmsMainContainerElement = siteBodyElement.querySelector(`.films-list`);
     const siteFilmsListElement = siteFilmsMainContainerElement.querySelector(`.films-list__container`);
@@ -47,19 +68,19 @@ export default class PageController {
 
 
     for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-      render(siteFilmsListElement, filmsMock[i].getElement(), Position.BEFOREEND);
+      this.render(siteFilmsListElement, filmsMock[i].getElement(), Position.BEFOREEND);
     }
 
     for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
-      render(siteFilmsExtraListElements[0].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
+      this.render(siteFilmsExtraListElements[0].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
     }
 
     for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
-      render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
+      this.render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
     }
 
     // Рендер скрытого попапа с детальной информацией о фильме
-    render(siteBodyElement, filmDetailsObj.getElement(), Position.BEFOREEND);
+    this.render(siteBodyElement, filmDetailsObj.getElement(), Position.BEFOREEND);
 
     // Инициализация событий открытия попапа по нажатию на карточку фильма и его закрытия по нажатию на кнопку закрытия
     const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
@@ -109,7 +130,7 @@ export default class PageController {
 
     // Рендерим кнопку load more
     const showMoreButtonObj = new ShowMoreButton();
-    render(siteFilmsMainContainerElement, showMoreButtonObj.getElement(), Position.BEFOREEND);
+    this.render(siteFilmsMainContainerElement, showMoreButtonObj.getElement(), Position.BEFOREEND);
     const cardsWrap = document.querySelector(`.films-list__container`);
     const cards = cardsWrap.querySelectorAll(`.film-card`);
     const buttonLoadMore = document.querySelector(`.films-list__show-more`);
@@ -120,8 +141,8 @@ export default class PageController {
 
     const renderNoResultIfNoFilms = () => {
       if (siteMainElement.querySelectorAll(`.film-card`).length === 0) {
-        unrender(siteMainElement);
-        render(siteBodyElement, searchNoResultObj.getElement(), siteFooterElement);
+        this.unrender(siteMainElement);
+        this.render(siteBodyElement, searchNoResultObj.getElement(), siteFooterElement);
       }
     };
 
@@ -143,7 +164,7 @@ export default class PageController {
         const cardsSort = cardsWrapSort.querySelectorAll(`.film-card`);
         const buttonLoadMoreToBeDeleted = document.querySelector(`.films-list__show-more`);
         buttonLoadMoreToBeDeleted.remove();
-        render(mainFilmListContainer, showMoreButtonObjSort.getElement(), Position.BEFOREEND);
+        this.render(mainFilmListContainer, showMoreButtonObjSort.getElement(), Position.BEFOREEND);
         const buttonLoadMoreSort = document.querySelector(`.films-list__show-more`);
         initiateLoadMoreButton(cardsWrapSort, cardsSort, buttonLoadMoreSort, 5);
       };
@@ -169,7 +190,7 @@ export default class PageController {
             collection = filmsDefault;
         }
         for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-          render(mainFilmListContainer, collection[i].getElement(), Position.BEFOREEND);
+          this.render(mainFilmListContainer, collection[i].getElement(), Position.BEFOREEND);
         }
         initiateShowMoreButton();
         resetBacklight();
