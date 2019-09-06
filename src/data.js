@@ -1,4 +1,5 @@
-import {getNewRandomArrayFromArray} from "./utils";
+import {getNewRandomArrayFromArray} from './utils.js';
+import FilmCard from './components/film-card.js';
 
 export const getMock = () => {
   const commentsVariants = [
@@ -51,6 +52,13 @@ export const getMock = () => {
       `17 August 1923`,
       `29 November 1933`,
       `11 October 1951`,
+    ][Math.round(Math.random() * 4)],
+    releaseDateTimestamp: [
+      1567551459,
+      1567451459,
+      1567351459,
+      1567251459,
+      1567151459,
     ][Math.round(Math.random() * 4)],
     comments: getNewRandomArrayFromArray(commentsVariants, 4),
     originalTitle: [
@@ -115,4 +123,14 @@ export const getMock = () => {
       `./images/posters/the-man-with-the-golden-arm.jpg`,
     ][Math.round(Math.random() * 4)]
   };
+};
+
+// Получение массива фильмов
+
+export const getFilmsMock = (numberOfFilmsInMainList) => {
+  let filmsMock = [];
+  for (let i = 0; i < numberOfFilmsInMainList; i++) {
+    filmsMock[i] = new FilmCard(getMock());
+  }
+  return filmsMock;
 };

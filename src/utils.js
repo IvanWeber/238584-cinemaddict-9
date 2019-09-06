@@ -3,32 +3,12 @@ export const Position = {
   BEFOREEND: `beforeend`
 };
 
+export const NUMBER_OF_FILMS_IN_MAIN_LIST = 12;
+
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
   return newElement.firstChild;
-};
-
-// Рендер и анрендер для компонентов
-export const render = (container, element, place) => {
-  const el = element.cloneNode(true);
-  switch (place) {
-    case Position.AFTERBEGIN:
-      container.prepend(el);
-      break;
-    case Position.BEFOREEND:
-      container.appendChild(el);
-      break;
-    default:
-      container.insertBefore(el, place);
-      break;
-  }
-};
-
-export const unrender = (element) => {
-  if (element) {
-    element.remove();
-  }
 };
 
 // Другие вспомогательные функции
@@ -69,3 +49,5 @@ export const initiateLoadMoreButton = (cardsWrap, cards, buttonLoadMore, cardsFe
   };
   buttonLoadMore.addEventListener(`click`, showNextCards);
 };
+
+

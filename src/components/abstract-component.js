@@ -17,6 +17,7 @@ export default class AbstractComponent {
         throw new TypeError(`In ${this.constructor.name} abstract method not implemented: ${method}`);
       }
     });
+    this._element = null;
   }
 
   getElement() {
