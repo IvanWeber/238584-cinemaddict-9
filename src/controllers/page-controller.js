@@ -156,47 +156,24 @@ export default class PageController {
 
       const sortElementClickHandler = (evt) => {
         const filmCardElements = mainFilmListContainer.querySelectorAll(`.film-card`);
+        let collection = films;
+        filmCardElements.forEach((el) => el.remove());
         switch (evt.target.dataset.sort) {
-          case `default`:
-            filmCardElements.forEach((el) => {
-              el.remove();
-            });
-            for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-              render(mainFilmListContainer, filmsDefault[i].getElement(), Position.BEFOREEND);
-            }
-            initiateShowMoreButton();
-            resetBacklight();
-            sortByDefaultElement.classList.add(`sort__button--active`);
-            break;
           case `date`:
-            filmCardElements.forEach((el) => {
-              el.remove();
-            });
-            films.sort((a, b) => {
-              return b.getReleaseDateTimestamp() - a.getReleaseDateTimestamp();
-            });
-            for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-              render(mainFilmListContainer, films[i].getElement(), Position.BEFOREEND);
-            }
-            initiateShowMoreButton();
-            resetBacklight();
-            sortByDateElement.classList.add(`sort__button--active`);
+            collection.sort((a, b) => b.getReleaseDateTimestamp() - a.getReleaseDateTimestamp());
             break;
           case `rating`:
-            filmCardElements.forEach((el) => {
-              el.remove();
-            });
-            films.sort((a, b) => {
-              return b.getRating() - a.getRating();
-            });
-            for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-              render(mainFilmListContainer, films[i].getElement(), Position.BEFOREEND);
-            }
-            initiateShowMoreButton();
-            resetBacklight();
-            sortByRatingElement.classList.add(`sort__button--active`);
+            collection.sort((a, b) => b.getRating() - a.getRating());
             break;
+          default:
+            collection = filmsDefault;
         }
+        for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
+          render(mainFilmListContainer, collection[i].getElement(), Position.BEFOREEND);
+        }
+        initiateShowMoreButton();
+        resetBacklight();
+        evt.target.classList.add(`sort__button--active`);
       };
 
       sortByDefaultElement.addEventListener(`click`, sortElementClickHandler);
