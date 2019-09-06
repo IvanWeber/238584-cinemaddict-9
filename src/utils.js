@@ -1,5 +1,3 @@
-import ShowMoreButton from './components/show-more-button.js';
-
 export const Position = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`
@@ -74,78 +72,4 @@ export const initiateLoadMoreButton = (cardsWrap, cards, buttonLoadMore, cardsFe
   buttonLoadMore.addEventListener(`click`, showNextCards);
 };
 
-// Сортировка фильмов
 
-export const initiateSortFilmsButtons = (bodyElement, films) => {
-  const sortButtonsElements = bodyElement.querySelectorAll(`.sort__button`);
-  const sortByDefaultElement = sortButtonsElements[0];
-  const sortByDateElement = sortButtonsElements[1];
-  const sortByRatingElement = sortButtonsElements[2];
-  const mainFilmListContainer = bodyElement.querySelectorAll(`.films-list__container`)[0];
-  const filmsDefault = Object.assign({}, films);
-
-  const initiateShowMoreButton = () => {
-    const showMoreButtonObj = new ShowMoreButton();
-    const cardsWrap = document.querySelector(`.films-list__container`);
-    const cards = cardsWrap.querySelectorAll(`.film-card`);
-    const buttonLoadMoreToBeDeleted = document.querySelector(`.films-list__show-more`);
-    buttonLoadMoreToBeDeleted.remove();
-    render(mainFilmListContainer, showMoreButtonObj.getElement(), Position.BEFOREEND);
-    const buttonLoadMore = document.querySelector(`.films-list__show-more`);
-    initiateLoadMoreButton(cardsWrap, cards, buttonLoadMore, 5);
-  };
-
-  const resetBacklight = () => {
-    sortByDefaultElement.classList.remove(`sort__button--active`);
-    sortByDateElement.classList.remove(`sort__button--active`);
-    sortByRatingElement.classList.remove(`sort__button--active`);
-  };
-
-  const sortByDefaultElementClickHandler = () => {
-    const filmCardElements = mainFilmListContainer.querySelectorAll(`.film-card`);
-    filmCardElements.forEach((el) => {
-      el.remove();
-    });
-    for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-      render(mainFilmListContainer, filmsDefault[i].getElement(), Position.BEFOREEND);
-    }
-    initiateShowMoreButton();
-    resetBacklight();
-    sortByDefaultElement.classList.add(`sort__button--active`);
-  };
-  const sortByDateElementClickHandler = () => {
-    const filmCardElements = mainFilmListContainer.querySelectorAll(`.film-card`);
-    filmCardElements.forEach((el) => {
-      el.remove();
-    });
-
-    films.sort(function (a, b) {
-      return b._releaseDateTimestamp - a._releaseDateTimestamp;
-    });
-    for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-      render(mainFilmListContainer, films[i].getElement(), Position.BEFOREEND);
-    }
-    initiateShowMoreButton();
-    resetBacklight();
-    sortByDateElement.classList.add(`sort__button--active`);
-  };
-  const sortByRatingElementClickHandler = () => {
-    const filmCardElements = mainFilmListContainer.querySelectorAll(`.film-card`);
-    filmCardElements.forEach((el) => {
-      el.remove();
-    });
-    films.sort((a, b) => {
-      return b._rating - a._rating;
-    });
-    for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-      render(mainFilmListContainer, films[i].getElement(), Position.BEFOREEND);
-    }
-    initiateShowMoreButton();
-    resetBacklight();
-    sortByRatingElement.classList.add(`sort__button--active`);
-  };
-
-  sortByDefaultElement.addEventListener(`click`, sortByDefaultElementClickHandler);
-  sortByDateElement.addEventListener(`click`, sortByDateElementClickHandler);
-  sortByRatingElement.addEventListener(`click`, sortByRatingElementClickHandler);
-};

@@ -17,6 +17,14 @@ export default class FilmCard extends AbstractComponent {
     this._image = args.imageSrc;
   }
 
+  getRating() {
+    return this._rating;
+  }
+
+  getReleaseDateTimestamp() {
+    return this._releaseDateTimestamp;
+  }
+
   getTemplate() {
     return `<article class="film-card">
           <h3 class="film-card__title">${this._title}</h3>

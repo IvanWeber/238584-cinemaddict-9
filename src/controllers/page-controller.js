@@ -1,7 +1,7 @@
 import Search from '../components/search.js';
 import Sort from '../components/sort.js';
 import ShowMoreButton from '../components/show-more-button.js';
-import {render, unrender, initiateLoadMoreButton, initiateSortFilmsButtons, Position} from '../utils.js';
+import {render, unrender, initiateLoadMoreButton, Position} from '../utils.js';
 import {getMock} from '../data.js';
 import Profile from '../components/profile.js';
 import MainNavigation from '../components/main-navigation.js';
@@ -128,6 +128,82 @@ export default class PageController {
     renderNoResultIfNoFilms();
 
     // Инициализация работы меню сортировки
+
+    const initiateSortFilmsButtons = (bodyElement, films) => {
+      const sortButtonsElements = bodyElement.querySelectorAll(`.sort__button`);
+      const sortByDefaultElement = sortButtonsElements[0];
+      const sortByDateElement = sortButtonsElements[1];
+      const sortByRatingElement = sortButtonsElements[2];
+      const mainFilmListContainer = bodyElement.querySelectorAll(`.films-list__container`)[0];
+      const filmsDefault = Object.assign({}, films);
+
+      const initiateShowMoreButton = () => {
+        const showMoreButtonObjSort = new ShowMoreButton();
+        const cardsWrapSort = document.querySelector(`.films-list__container`);
+        const cardsSort = cardsWrapSort.querySelectorAll(`.film-card`);
+        const buttonLoadMoreToBeDeleted = document.querySelector(`.films-list__show-more`);
+        buttonLoadMoreToBeDeleted.remove();
+        render(mainFilmListContainer, showMoreButtonObjSort.getElement(), Position.BEFOREEND);
+        const buttonLoadMoreSort = document.querySelector(`.films-list__show-more`);
+        initiateLoadMoreButton(cardsWrapSort, cardsSort, buttonLoadMoreSort, 5);
+      };
+
+      const resetBacklight = () => {
+        sortByDefaultElement.classList.remove(`sort__button--active`);
+        sortByDateElement.classList.remove(`sort__button--active`);
+        sortByRatingElement.classList.remove(`sort__button--active`);
+      };
+
+      const sortElementClickHandler = (evt) => {
+        const filmCardElements = mainFilmListContainer.querySelectorAll(`.film-card`);
+        switch (evt.target.dataset.sort) {
+          case `default`:
+            filmCardElements.forEach((el) => {
+              el.remove();
+            });
+            for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
+              render(mainFilmListContainer, filmsDefault[i].getElement(), Position.BEFOREEND);
+            }
+            initiateShowMoreButton();
+            resetBacklight();
+            sortByDefaultElement.classList.add(`sort__button--active`);
+            break;
+          case `date`:
+            filmCardElements.forEach((el) => {
+              el.remove();
+            });
+            films.sort((a, b) => {
+              return b.getReleaseDateTimestamp() - a.getReleaseDateTimestamp();
+            });
+            for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
+              render(mainFilmListContainer, films[i].getElement(), Position.BEFOREEND);
+            }
+            initiateShowMoreButton();
+            resetBacklight();
+            sortByDateElement.classList.add(`sort__button--active`);
+            break;
+          case `rating`:
+            filmCardElements.forEach((el) => {
+              el.remove();
+            });
+            films.sort((a, b) => {
+              return b.getRating() - a.getRating();
+            });
+            for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
+              render(mainFilmListContainer, films[i].getElement(), Position.BEFOREEND);
+            }
+            initiateShowMoreButton();
+            resetBacklight();
+            sortByRatingElement.classList.add(`sort__button--active`);
+            break;
+        }
+      };
+
+      sortByDefaultElement.addEventListener(`click`, sortElementClickHandler);
+      sortByDateElement.addEventListener(`click`, sortElementClickHandler);
+      sortByRatingElement.addEventListener(`click`, sortElementClickHandler);
+    };
+
     initiateSortFilmsButtons(this._container, this._films);
   }
 }
