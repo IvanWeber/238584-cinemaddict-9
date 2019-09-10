@@ -59,7 +59,7 @@ export default class MovieController {
 
     const initiatePopupOpenOnClickFilmCard = () => {
       filmCards.forEach((card) => {
-        const cardClickHandler = () => {
+        const cardClickHandler = (evt) => {
           filmDetailsPopup.classList.remove(`visually-hidden`);
         };
         card.addEventListener(`click`, cardClickHandler);

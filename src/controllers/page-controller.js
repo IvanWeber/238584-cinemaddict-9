@@ -98,6 +98,16 @@ export default class PageController {
 
     renderNoResultIfNoFilms();
 
+    // Инициализация функции открытия попапа по нажатию на карточку фильма
+
+    const initiatePopupOpenOnClickFilmCard = (filmCards, filmDetailsPopup) => {
+      filmCards.forEach((card) => {
+        const cardClickHandler = () => {
+          filmDetailsPopup.classList.remove(`visually-hidden`);
+        };
+        card.addEventListener(`click`, cardClickHandler);
+      });
+    };
     // Инициализация работы меню сортировки
 
     const initiateSortFilmsButtons = (bodyElement, films) => {
@@ -145,6 +155,10 @@ export default class PageController {
         initiateShowMoreButton();
         resetBacklight();
         evt.target.classList.add(`sort__button--active`);
+        // Инициализация событий открытия попапа по нажатию на карточку фильма
+        const filmCardElementsAfter = siteBodyElement.querySelectorAll(`.film-card`);
+        const filmDetailsPopupElement = siteBodyElement.querySelector(`.film-details`);
+        initiatePopupOpenOnClickFilmCard(filmCardElementsAfter, filmDetailsPopupElement);
       };
 
       sortByDefaultElement.addEventListener(`click`, sortElementClickHandler);
