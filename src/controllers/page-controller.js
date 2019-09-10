@@ -8,6 +8,7 @@ import MainNavigation from '../components/main-navigation.js';
 import FilmsContainer from '../components/films-container.js';
 import FilmDetails from '../components/film-details.js';
 import SearchNoResult from '../components/search-no-result.js';
+import FilmCard from '../components/film-card.js';
 
 export default class PageController {
   constructor(container, films) {
@@ -67,15 +68,18 @@ export default class PageController {
 
 
     for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-      this.render(siteFilmsListElement, filmsMock[i].getElement(), Position.BEFOREEND);
+      let filmCardObj = new FilmCard(filmsMock[i]);
+      this.render(siteFilmsListElement, filmCardObj.getElement(), Position.BEFOREEND);
     }
 
     for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
-      this.render(siteFilmsExtraListElements[0].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
+      let filmCardObj = new FilmCard(filmsMock[i]);
+      this.render(siteFilmsExtraListElements[0].querySelector(`.films-list__container`), filmCardObj.getElement(), Position.BEFOREEND);
     }
 
     for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
-      this.render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
+      let filmCardObj = new FilmCard(filmsMock[i]);
+      this.render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmCardObj.getElement(), Position.BEFOREEND);
     }
 
     // Рендерим кнопку load more
@@ -141,16 +145,17 @@ export default class PageController {
         filmCardElements.forEach((el) => el.remove());
         switch (evt.target.dataset.sort) {
           case `date`:
-            collection.sort((a, b) => b.getReleaseDateTimestamp() - a.getReleaseDateTimestamp());
+            collection.sort((a, b) => b.releaseDateTimestamp - a.releaseDateTimestamp);
             break;
           case `rating`:
-            collection.sort((a, b) => b.getRating() - a.getRating());
+            collection.sort((a, b) => b.rating - a.rating);
             break;
           default:
             collection = filmsDefault;
         }
         for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-          this.render(mainFilmListContainer, collection[i].getElement(), Position.BEFOREEND);
+          let filmCardObj = new FilmCard(collection[i]);
+          this.render(mainFilmListContainer, filmCardObj.getElement(), Position.BEFOREEND);
         }
         initiateShowMoreButton();
         resetBacklight();

@@ -20,6 +20,7 @@ export default class FilmDetails extends AbstractComponent {
     this._isAlreadyWatched = args.isAlreadyWatched;
     this._isAddToFavorites = args.isAddToFavorites;
     this._image = args.imageSrc;
+    this._id = args.id;
   }
 
   getTemplate() {

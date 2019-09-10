@@ -130,7 +130,8 @@ export const getMock = () => {
 export const getFilmsMock = (numberOfFilmsInMainList) => {
   let filmsMock = [];
   for (let i = 0; i < numberOfFilmsInMainList; i++) {
-    filmsMock[i] = new FilmCard(getMock());
+    filmsMock[i] = getMock();
+    filmsMock[i].id = i;
   }
   return filmsMock;
 };

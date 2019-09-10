@@ -47,19 +47,24 @@ export default class MovieController {
   init() {
     const siteBodyElement = this._container;
 
-    const filmDetailsObj = new FilmDetails(getMock());
-    // Рендер скрытого попапа с детальной информацией о фильме
-    this.render(siteBodyElement, filmDetailsObj.getElement(), Position.BEFOREEND);
-
     // Инициализация событий открытия попапа по нажатию на карточку фильма и его закрытия по нажатию на кнопку закрытия
-    const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
     const filmCards = siteBodyElement.querySelectorAll(`.film-card`);
-    const closeButton = filmDetailsPopup.querySelector(`.film-details__close-btn`);
-    const filmDetailsCommentInput = filmDetailsPopup.querySelector(`.film-details__comment-input`);
 
     const initiatePopupOpenOnClickFilmCard = () => {
       filmCards.forEach((card) => {
         const cardClickHandler = (evt) => {
+          const elementIndex = evt.currentTarget.querySelector(`.film-card__id`).textContent;
+          const filmDetailsObj = new FilmDetails(this._films[elementIndex]);
+          // Рендер скрытого попапа с детальной информацией о фильме
+          const prevFilmDetailsElement = siteBodyElement.querySelector(`.film-details`);
+          this.unrender(prevFilmDetailsElement);
+          this.render(siteBodyElement, filmDetailsObj.getElement(), Position.BEFOREEND);
+          const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
+          const closeButton = filmDetailsPopup.querySelector(`.film-details__close-btn`);
+          const filmDetailsCommentInput = filmDetailsPopup.querySelector(`.film-details__comment-input`);
+          initiatePopupCloseOnClickCloseButton(filmDetailsPopup, closeButton);
+          initiatePopupCloseOnKeydownEsc(filmDetailsPopup);
+          initiateStopEventPropagationOnKeydownEscOnCommentInput(filmDetailsCommentInput);
           filmDetailsPopup.classList.remove(`visually-hidden`);
         };
         card.addEventListener(`click`, cardClickHandler);
@@ -67,14 +72,14 @@ export default class MovieController {
     };
 
 
-    const initiatePopupCloseOnClickCloseButton = () => {
+    const initiatePopupCloseOnClickCloseButton = (filmDetailsPopup, closeButton) => {
       const closeButtonClickHandler = () => {
         filmDetailsPopup.classList.add(`visually-hidden`);
       };
       closeButton.addEventListener(`click`, closeButtonClickHandler);
     };
 
-    const initiatePopupCloseOnKeydownEsc = () => {
+    const initiatePopupCloseOnKeydownEsc = (filmDetailsPopup) => {
       const popupKeydownEscHandler = (evt) => {
         if (evt.keyCode === 27) {
           filmDetailsPopup.classList.add(`visually-hidden`);
@@ -83,7 +88,7 @@ export default class MovieController {
       document.addEventListener(`keydown`, popupKeydownEscHandler);
     };
 
-    const initiateStopEventPropagationOnKeydownEscOnCommentInput = () => {
+    const initiateStopEventPropagationOnKeydownEscOnCommentInput = (filmDetailsCommentInput) => {
       const commentInputKeydownEscHandler = (evt) => {
         if (evt.keyCode === 27) {
           evt.stopPropagation();
@@ -93,8 +98,5 @@ export default class MovieController {
     };
 
     initiatePopupOpenOnClickFilmCard();
-    initiatePopupCloseOnClickCloseButton();
-    initiatePopupCloseOnKeydownEsc();
-    initiateStopEventPropagationOnKeydownEscOnCommentInput();
   }
 }
