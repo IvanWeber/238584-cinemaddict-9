@@ -45,7 +45,6 @@ export default class PageController {
     const profileObj = new Profile();
     const mainNavObj = new MainNavigation();
     const filmsContainerObj = new FilmsContainer();
-    const filmDetailsObj = new FilmDetails(getMock());
     const searchNoResultObj = new SearchNoResult();
 
     const filmsMock = this._films;
@@ -78,55 +77,6 @@ export default class PageController {
     for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
       this.render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
     }
-
-    // Рендер скрытого попапа с детальной информацией о фильме
-    this.render(siteBodyElement, filmDetailsObj.getElement(), Position.BEFOREEND);
-
-    // Инициализация событий открытия попапа по нажатию на карточку фильма и его закрытия по нажатию на кнопку закрытия
-    const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
-    const filmCards = siteBodyElement.querySelectorAll(`.film-card`);
-    const closeButton = filmDetailsPopup.querySelector(`.film-details__close-btn`);
-    const filmDetailsCommentInput = filmDetailsPopup.querySelector(`.film-details__comment-input`);
-
-    const initiatePopupOpenOnClickFilmCard = () => {
-      filmCards.forEach((card) => {
-        const cardClickHandler = () => {
-          filmDetailsPopup.classList.remove(`visually-hidden`);
-        };
-        card.addEventListener(`click`, cardClickHandler);
-      });
-    };
-
-
-    const initiatePopupCloseOnClickCloseButton = () => {
-      const closeButtonClickHandler = () => {
-        filmDetailsPopup.classList.add(`visually-hidden`);
-      };
-      closeButton.addEventListener(`click`, closeButtonClickHandler);
-    };
-
-    const initiatePopupCloseOnKeydownEsc = () => {
-      const popupKeydownEscHandler = (evt) => {
-        if (evt.keyCode === 27) {
-          filmDetailsPopup.classList.add(`visually-hidden`);
-        }
-      };
-      document.addEventListener(`keydown`, popupKeydownEscHandler);
-    };
-
-    const initiateStopEventPropagationOnKeydownEscOnCommentInput = () => {
-      const commentInputKeydownEscHandler = (evt) => {
-        if (evt.keyCode === 27) {
-          evt.stopPropagation();
-        }
-      };
-      filmDetailsCommentInput.addEventListener(`keydown`, commentInputKeydownEscHandler);
-    };
-
-    initiatePopupOpenOnClickFilmCard();
-    initiatePopupCloseOnClickCloseButton();
-    initiatePopupCloseOnKeydownEsc();
-    initiateStopEventPropagationOnKeydownEscOnCommentInput();
 
     // Рендерим кнопку load more
     const showMoreButtonObj = new ShowMoreButton();
