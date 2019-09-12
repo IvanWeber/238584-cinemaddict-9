@@ -1,5 +1,4 @@
 import {getNewRandomArrayFromArray} from './utils.js';
-import FilmCard from './components/film-card.js';
 
 export const getMock = () => {
   const commentsVariants = [

@@ -2,11 +2,9 @@ import Search from '../components/search.js';
 import Sort from '../components/sort.js';
 import ShowMoreButton from '../components/show-more-button.js';
 import {initiateLoadMoreButton, Position} from '../utils.js';
-import {getMock} from '../data.js';
 import Profile from '../components/profile.js';
 import MainNavigation from '../components/main-navigation.js';
 import FilmsContainer from '../components/films-container.js';
-import FilmDetails from '../components/film-details.js';
 import SearchNoResult from '../components/search-no-result.js';
 import FilmCard from '../components/film-card.js';
 
