@@ -15,6 +15,7 @@ export default class FilmCard extends AbstractComponent {
     this._isAlreadyWatched = args.isAlreadyWatched;
     this._isAddToFavorites = args.isAddToFavorites;
     this._image = args.imageSrc;
+    this._id = args.id;
   }
 
   getRating() {
@@ -28,6 +29,7 @@ export default class FilmCard extends AbstractComponent {
   getTemplate() {
     return `<article class="film-card">
           <h3 class="film-card__title">${this._title}</h3>
+          <p class="film-card__id visually-hidden">${this._id}</p>
           <p class="film-card__rating">${this._rating}</p>
           <p class="film-card__info">
             <span class="film-card__year">${this._releaseDate}</span>

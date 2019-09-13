@@ -2,12 +2,11 @@ import Search from '../components/search.js';
 import Sort from '../components/sort.js';
 import ShowMoreButton from '../components/show-more-button.js';
 import {initiateLoadMoreButton, Position} from '../utils.js';
-import {getMock} from '../data.js';
 import Profile from '../components/profile.js';
 import MainNavigation from '../components/main-navigation.js';
 import FilmsContainer from '../components/films-container.js';
-import FilmDetails from '../components/film-details.js';
 import SearchNoResult from '../components/search-no-result.js';
+import FilmCard from '../components/film-card.js';
 
 export default class PageController {
   constructor(container, films) {
@@ -45,7 +44,6 @@ export default class PageController {
     const profileObj = new Profile();
     const mainNavObj = new MainNavigation();
     const filmsContainerObj = new FilmsContainer();
-    const filmDetailsObj = new FilmDetails(getMock());
     const searchNoResultObj = new SearchNoResult();
 
     const filmsMock = this._films;
@@ -68,65 +66,19 @@ export default class PageController {
 
 
     for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-      this.render(siteFilmsListElement, filmsMock[i].getElement(), Position.BEFOREEND);
+      let filmCardObj = new FilmCard(filmsMock[i]);
+      this.render(siteFilmsListElement, filmCardObj.getElement(), Position.BEFOREEND);
     }
 
     for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
-      this.render(siteFilmsExtraListElements[0].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
+      let filmCardObj = new FilmCard(filmsMock[i]);
+      this.render(siteFilmsExtraListElements[0].querySelector(`.films-list__container`), filmCardObj.getElement(), Position.BEFOREEND);
     }
 
     for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
-      this.render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmsMock[i].getElement(), Position.BEFOREEND);
+      let filmCardObj = new FilmCard(filmsMock[i]);
+      this.render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmCardObj.getElement(), Position.BEFOREEND);
     }
-
-    // Рендер скрытого попапа с детальной информацией о фильме
-    this.render(siteBodyElement, filmDetailsObj.getElement(), Position.BEFOREEND);
-
-    // Инициализация событий открытия попапа по нажатию на карточку фильма и его закрытия по нажатию на кнопку закрытия
-    const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
-    const filmCards = siteBodyElement.querySelectorAll(`.film-card`);
-    const closeButton = filmDetailsPopup.querySelector(`.film-details__close-btn`);
-    const filmDetailsCommentInput = filmDetailsPopup.querySelector(`.film-details__comment-input`);
-
-    const initiatePopupOpenOnClickFilmCard = () => {
-      filmCards.forEach((card) => {
-        const cardClickHandler = () => {
-          filmDetailsPopup.classList.remove(`visually-hidden`);
-        };
-        card.addEventListener(`click`, cardClickHandler);
-      });
-    };
-
-
-    const initiatePopupCloseOnClickCloseButton = () => {
-      const closeButtonClickHandler = () => {
-        filmDetailsPopup.classList.add(`visually-hidden`);
-      };
-      closeButton.addEventListener(`click`, closeButtonClickHandler);
-    };
-
-    const initiatePopupCloseOnKeydownEsc = () => {
-      const popupKeydownEscHandler = (evt) => {
-        if (evt.keyCode === 27) {
-          filmDetailsPopup.classList.add(`visually-hidden`);
-        }
-      };
-      document.addEventListener(`keydown`, popupKeydownEscHandler);
-    };
-
-    const initiateStopEventPropagationOnKeydownEscOnCommentInput = () => {
-      const commentInputKeydownEscHandler = (evt) => {
-        if (evt.keyCode === 27) {
-          evt.stopPropagation();
-        }
-      };
-      filmDetailsCommentInput.addEventListener(`keydown`, commentInputKeydownEscHandler);
-    };
-
-    initiatePopupOpenOnClickFilmCard();
-    initiatePopupCloseOnClickCloseButton();
-    initiatePopupCloseOnKeydownEsc();
-    initiateStopEventPropagationOnKeydownEscOnCommentInput();
 
     // Рендерим кнопку load more
     const showMoreButtonObj = new ShowMoreButton();
@@ -148,6 +100,16 @@ export default class PageController {
 
     renderNoResultIfNoFilms();
 
+    // Инициализация функции открытия попапа по нажатию на карточку фильма
+
+    const initiatePopupOpenOnClickFilmCard = (filmCards, filmDetailsPopup) => {
+      filmCards.forEach((card) => {
+        const cardClickHandler = () => {
+          filmDetailsPopup.classList.remove(`visually-hidden`);
+        };
+        card.addEventListener(`click`, cardClickHandler);
+      });
+    };
     // Инициализация работы меню сортировки
 
     const initiateSortFilmsButtons = (bodyElement, films) => {
@@ -181,20 +143,25 @@ export default class PageController {
         filmCardElements.forEach((el) => el.remove());
         switch (evt.target.dataset.sort) {
           case `date`:
-            collection.sort((a, b) => b.getReleaseDateTimestamp() - a.getReleaseDateTimestamp());
+            collection.sort((a, b) => b.releaseDateTimestamp - a.releaseDateTimestamp);
             break;
           case `rating`:
-            collection.sort((a, b) => b.getRating() - a.getRating());
+            collection.sort((a, b) => b.rating - a.rating);
             break;
           default:
             collection = filmsDefault;
         }
         for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
-          this.render(mainFilmListContainer, collection[i].getElement(), Position.BEFOREEND);
+          let filmCardObj = new FilmCard(collection[i]);
+          this.render(mainFilmListContainer, filmCardObj.getElement(), Position.BEFOREEND);
         }
         initiateShowMoreButton();
         resetBacklight();
         evt.target.classList.add(`sort__button--active`);
+        // Инициализация событий открытия попапа по нажатию на карточку фильма
+        const filmCardElementsAfter = siteBodyElement.querySelectorAll(`.film-card`);
+        const filmDetailsPopupElement = siteBodyElement.querySelector(`.film-details`);
+        initiatePopupOpenOnClickFilmCard(filmCardElementsAfter, filmDetailsPopupElement);
       };
 
       sortByDefaultElement.addEventListener(`click`, sortElementClickHandler);
