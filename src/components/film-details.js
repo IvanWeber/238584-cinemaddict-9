@@ -9,6 +9,7 @@ export default class FilmDetails extends AbstractComponent {
     this._runTime = args.runTime;
     this._genres = args.genres;
     this._releaseDate = args.releaseDate;
+    this._releaseDateTimestamp = args.releaseDateTimestamp;
     this._comments = args.comments;
     this._originalTitle = args.originalTitle;
     this._director = args.director;
@@ -91,6 +92,7 @@ export default class FilmDetails extends AbstractComponent {
           <p class="film-details__film-description">
             ${this._description}
           </p>
+          <p class="visually-hidden film_id">${this._id}</p>
         </div>
       </div>
 

@@ -38,7 +38,6 @@ export default class MovieController {
 
   init() {
     const siteBodyElement = this._container;
-
     // Инициализация событий открытия попапа по нажатию на карточку фильма и его закрытия по нажатию на кнопку закрытия
     const filmCards = siteBodyElement.querySelectorAll(`.film-card`);
 
@@ -89,6 +88,9 @@ export default class MovieController {
       filmDetailsCommentInput.addEventListener(`keydown`, commentInputKeydownEscHandler);
     };
 
+
+    // const filmDetailsObj = new FilmDetails(this._films[0]);
+    // this.render(siteBodyElement, filmDetailsObj.getElement(), Position.BEFOREEND);
     initiatePopupOpenOnClickFilmCard();
   }
 }
