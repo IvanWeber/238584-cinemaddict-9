@@ -1,7 +1,7 @@
 import Search from '../components/search.js';
 import Sort from '../components/sort.js';
 import ShowMoreButton from '../components/show-more-button.js';
-import {initiateLoadMoreButton, Position, getFilmsMockFromDomElementsCollection} from '../utils.js';
+import {initiateLoadMoreButton, Position} from '../utils.js';
 import Profile from '../components/profile.js';
 import MainNavigation from '../components/main-navigation.js';
 import FilmsContainer from '../components/films-container.js';
@@ -100,17 +100,6 @@ export default class PageController {
     };
 
     renderNoResultIfNoFilms();
-
-    // Инициализация функции открытия попапа по нажатию на карточку фильма
-
-    const initiatePopupOpenOnClickFilmCard = (filmCards, filmDetailsPopup) => {
-      filmCards.forEach((card) => {
-        const cardClickHandler = () => {
-          filmDetailsPopup.classList.remove(`visually-hidden`);
-        };
-        card.addEventListener(`click`, cardClickHandler);
-      });
-    };
     // Инициализация работы меню сортировки
 
     const initiateSortFilmsButtons = (bodyElement, films) => {
@@ -146,9 +135,6 @@ export default class PageController {
         let collection = filmsDefault;
         filmCardElements.forEach((el) => el.remove());
         let movieControllerObj = new MovieController(document.querySelector(`body`), filmsMock);
-        let filmsMockNew;
-        let filmCardElementsAfterNew;
-        let filmDetailsPopupElementNew;
         switch (evt.target.dataset.sort) {
           case `date`:
             collection.sort((a, b) => b.releaseDateTimestamp - a.releaseDateTimestamp);
@@ -157,12 +143,8 @@ export default class PageController {
               this.render(mainFilmListContainer, filmCardObj.getElement(), Position.BEFOREEND);
             }
             siteBodyElement = document.querySelector(`body`);
-            filmsMockNew = getFilmsMockFromDomElementsCollection(siteBodyElement.querySelectorAll(`.film-card`));
             movieControllerObj = new MovieController(siteBodyElement, filmsMock);
             movieControllerObj.init();
-            filmCardElementsAfterNew = siteBodyElement.querySelectorAll(`.film-card`);
-            filmDetailsPopupElementNew = siteBodyElement.querySelector(`.film-details`);
-            // initiatePopupOpenOnClickFilmCard(filmCardElementsAfterNew, filmDetailsPopupElementNew);
             break;
           case `rating`:
             collection.sort((a, b) => b.rating - a.rating);
@@ -171,12 +153,8 @@ export default class PageController {
               this.render(mainFilmListContainer, filmCardObj.getElement(), Position.BEFOREEND);
             }
             siteBodyElement = document.querySelector(`body`);
-            filmsMockNew = getFilmsMockFromDomElementsCollection(siteBodyElement.querySelectorAll(`.film-card`));
             movieControllerObj = new MovieController(siteBodyElement, filmsMock);
             movieControllerObj.init();
-            filmCardElementsAfterNew = siteBodyElement.querySelectorAll(`.film-card`);
-            filmDetailsPopupElementNew = siteBodyElement.querySelector(`.film-details`);
-            // initiatePopupOpenOnClickFilmCard(filmCardElementsAfterNew, filmDetailsPopupElementNew);
             break;
           default:
             collection = filmsDefault;
@@ -185,12 +163,8 @@ export default class PageController {
               this.render(mainFilmListContainer, filmCardObj.getElement(), Position.BEFOREEND);
             }
             siteBodyElement = document.querySelector(`body`);
-            filmsMockNew = getFilmsMockFromDomElementsCollection(siteBodyElement.querySelectorAll(`.film-card`));
             movieControllerObj = new MovieController(siteBodyElement, filmsMock);
             movieControllerObj.init();
-            filmCardElementsAfterNew = siteBodyElement.querySelectorAll(`.film-card`);
-            filmDetailsPopupElementNew = siteBodyElement.querySelector(`.film-details`);
-            // initiatePopupOpenOnClickFilmCard(filmCardElementsAfterNew, filmDetailsPopupElementNew);
         }
         initiateShowMoreButton();
         resetBacklight();
@@ -202,10 +176,6 @@ export default class PageController {
       sortByRatingElement.addEventListener(`click`, sortElementClickHandler);
     };
 
-    // Инициализация событий открытия попапа по нажатию на карточку фильма
-    let filmCardElementsAfter = siteBodyElement.querySelectorAll(`.film-card`);
-    let filmDetailsPopupElement = siteBodyElement.querySelector(`.film-details`);
-    initiatePopupOpenOnClickFilmCard(filmCardElementsAfter, filmDetailsPopupElement);
     initiateSortFilmsButtons(this._container, this._films);
   }
 }

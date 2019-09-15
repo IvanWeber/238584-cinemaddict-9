@@ -88,9 +88,6 @@ export default class MovieController {
       filmDetailsCommentInput.addEventListener(`keydown`, commentInputKeydownEscHandler);
     };
 
-
-    // const filmDetailsObj = new FilmDetails(this._films[0]);
-    // this.render(siteBodyElement, filmDetailsObj.getElement(), Position.BEFOREEND);
     initiatePopupOpenOnClickFilmCard();
   }
 }
