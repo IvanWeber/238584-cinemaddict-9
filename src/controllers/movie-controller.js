@@ -1,5 +1,6 @@
 import {Position} from '../utils.js';
 import FilmDetails from '../components/film-details.js';
+import PageController from "./page-controller.js";
 
 export default class MovieController {
   constructor(container, films) {
@@ -88,6 +89,70 @@ export default class MovieController {
       filmDetailsCommentInput.addEventListener(`keydown`, commentInputKeydownEscHandler);
     };
 
+    const pageControllerObj = new PageController();
+
+    const initiateFilmCardControlButtons = () => {
+      const addToWatchListElements = siteBodyElement.querySelectorAll(`.film-card__controls-item--add-to-watchlist`);
+      const markAsWatchedElements = siteBodyElement.querySelectorAll(`.film-card__controls-item--mark-as-watched`);
+      const markAsFavoriteElements = siteBodyElement.querySelectorAll(`.film-card__controls-item--favorite`);
+
+      const controlClickHandler = (evt) => {
+        console.log(this._films);
+        const id = evt.target.parentNode.parentNode.querySelector(`.film-card__id`).textContent;
+        switch (evt.currentTarget.classList[2]) {
+          case `film-card__controls-item--add-to-watchlist`:
+            if (evt.currentTarget.classList[3] === `selected-category`) {
+              evt.stopPropagation();
+              evt.currentTarget.classList.remove(`selected-category`);
+              // this._films[id].isAddToWatchlist = false;
+              pageControllerObj.onDataChange(this._films, id, `isAddToWatchlist`, false);
+            } else {
+              evt.stopPropagation();
+              evt.currentTarget.classList.add(`selected-category`);
+              pageControllerObj.onDataChange(this._films, id, `isAddToWatchlist`, true);
+            }
+            break;
+          case `film-card__controls-item--mark-as-watched`:
+            if (evt.currentTarget.classList[3] === `selected-category`) {
+              evt.stopPropagation();
+              evt.currentTarget.classList.remove(`selected-category`);
+              pageControllerObj.onDataChange(this._films, id, `isAlreadyWatched`, false);
+            } else {
+              evt.stopPropagation();
+              evt.currentTarget.classList.add(`selected-category`);
+              pageControllerObj.onDataChange(this._films, id, `isAlreadyWatched`, true);
+            }
+            break;
+          case `film-card__controls-item--favorite`:
+            if (evt.currentTarget.classList[3] === `selected-category`) {
+              evt.stopPropagation();
+              evt.currentTarget.classList.remove(`selected-category`);
+              pageControllerObj.onDataChange(this._films, id, `isAddToFavorites`, false);
+            } else {
+              evt.stopPropagation();
+              evt.currentTarget.classList.add(`selected-category`);
+              pageControllerObj.onDataChange(this._films, id, `isAddToFavorites`, true);
+            }
+            break;
+        }
+      };
+
+      addToWatchListElements.forEach((el) => {
+        el.addEventListener(`click`, controlClickHandler);
+      });
+      markAsWatchedElements.forEach((el) => {
+        el.addEventListener(`click`, controlClickHandler);
+      });
+      markAsFavoriteElements.forEach((el) => {
+        el.addEventListener(`click`, controlClickHandler);
+      });
+    };
+
+    // const changeStyleOfControlsDependingOnStateOfObjects = () => {
+    //
+    // };
+
+    initiateFilmCardControlButtons();
     initiatePopupOpenOnClickFilmCard();
   }
 }

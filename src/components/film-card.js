@@ -33,6 +33,18 @@ export default class FilmCard extends AbstractComponent {
   }
 
   getTemplate() {
+    let isAddToWatchlist = ``;
+    if (this._isAddToWatchlist) {
+      isAddToWatchlist = `selected-category`;
+    }
+    let isAlreadyWatched = ``;
+    if (this._isAlreadyWatched) {
+      isAlreadyWatched = `selected-category`;
+    }
+    let isAddToFavorites = ``;
+    if (this._isAddToFavorites) {
+      isAddToFavorites = `selected-category`;
+    }
     return `<article class="film-card">
           <h3 class="film-card__title">${this._title}</h3>
           <p class="film-card__originalTitle visually-hidden">${this._originalTitle}</p>
@@ -43,7 +55,7 @@ export default class FilmCard extends AbstractComponent {
           <p class="film-card__ageRating visually-hidden">${this._ageRating}</p>
           <p class="film-card__isAddToWatchlist visually-hidden">${this._isAddToWatchlist}</p>
           <p class="film-card__isAlreadyWatched visually-hidden">${this._isAlreadyWatched}</p>
-          <p class="film-card__isAddToFavorites visually-hidden">${this._isAddToFavorites}</p>
+          <p class="film-card__isAddToFavorites visually-hidden ${isAddToFavorites}">${this._isAddToFavorites}</p>
           <p class="film-card__releaseDateTimestamp visually-hidden">${this._releaseDateTimestamp}</p>
           <p class="film-card__image visually-hidden">${this._image}</p>
           <p class="film-card__id visually-hidden">${this._id}</p>
@@ -60,9 +72,9 @@ export default class FilmCard extends AbstractComponent {
           <p class="film-card__description">${this._description}</p>
           <a class="film-card__comments">${this._comments.length} Comments</a>
           <form class="film-card__controls">
-            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
-            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
-            <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
+            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${isAddToWatchlist}">Add to watchlist</button>
+            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${isAlreadyWatched}">Mark as watched</button>
+            <button class="film-card__controls-item button film-card__controls-item--favorite ${isAddToFavorites}">Mark as favorite</button>
           </form>
         </article>`;
   }

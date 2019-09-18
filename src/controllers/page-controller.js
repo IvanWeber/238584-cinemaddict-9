@@ -157,7 +157,7 @@ export default class PageController {
             movieControllerObj.init();
             break;
           default:
-            collection = filmsDefault;
+            collection = films;
             for (let i = 0; i < NUMBER_OF_FILMS_IN_MAIN_LIST; i++) {
               let filmCardObj = new FilmCard(collection[i]);
               this.render(mainFilmListContainer, filmCardObj.getElement(), Position.BEFOREEND);
@@ -177,5 +177,9 @@ export default class PageController {
     };
 
     initiateSortFilmsButtons(this._container, this._films);
+  }
+
+  onDataChange(data, id, property, value) {
+    data[id].property = value;
   }
 }
