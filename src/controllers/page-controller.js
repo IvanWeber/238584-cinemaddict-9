@@ -71,15 +71,40 @@ export default class PageController {
       this.render(siteFilmsListElement, filmCardObj.getElement(), Position.BEFOREEND);
     }
 
-    for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
-      let filmCardObj = new FilmCard(filmsMock[i]);
+
+    let filmsToBeSortedByRating = [];
+    this._films.forEach((film) => {
+      filmsToBeSortedByRating.push(film);
+    });
+
+    filmsToBeSortedByRating.sort((a, b) => b.rating - a.rating);
+    for (let i = 0; i < 2; i++) {
+      let filmCardObj = new FilmCard(filmsToBeSortedByRating[i]);
       this.render(siteFilmsExtraListElements[0].querySelector(`.films-list__container`), filmCardObj.getElement(), Position.BEFOREEND);
     }
 
-    for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
-      let filmCardObj = new FilmCard(filmsMock[i]);
+    let filmsToBeSortedByNumberOfComments = [];
+    this._films.forEach((film) => {
+      filmsToBeSortedByNumberOfComments.push(film);
+    });
+    console.log(filmsToBeSortedByNumberOfComments);
+    filmsToBeSortedByNumberOfComments.sort((a, b) => b.comments.length - a.comments.length);
+    for (let i = 0; i < 2; i++) {
+      let filmCardObj = new FilmCard(filmsToBeSortedByNumberOfComments[i]);
+      console.log(filmCardObj.getElement());
       this.render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmCardObj.getElement(), Position.BEFOREEND);
+      // console.log(filmsToBeSortedByNumberOfComments[i]);
     }
+
+    // filmsToBeSortedByNumberOfComments.forEach((el) => {
+    //   console.log(el.comments.length);
+    // });
+
+
+    // for (let i = 0; i < NUMBER_OF_FILMS_IN_EXTRA_LIST; i++) {
+    //   let filmCardObj = new FilmCard(filmsMock[i]);
+    //   this.render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmCardObj.getElement(), Position.BEFOREEND);
+    // }
 
     // Рендерим кнопку load more
     const showMoreButtonObj = new ShowMoreButton();

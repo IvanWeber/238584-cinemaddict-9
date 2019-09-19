@@ -7,6 +7,6 @@ const filmsMock = getFilmsMock(NUMBER_OF_FILMS_IN_MAIN_LIST);
 
 const pageController = new PageController(document.querySelector(`body`), filmsMock);
 const movieController = new MovieController(document.querySelector(`body`), filmsMock);
-console.log(filmsMock);
+
 pageController.init();
 movieController.init();

@@ -97,7 +97,6 @@ export default class MovieController {
       const markAsFavoriteElements = siteBodyElement.querySelectorAll(`.film-card__controls-item--favorite`);
 
       const controlClickHandler = (evt) => {
-        console.log(this._films);
         const id = evt.target.parentNode.parentNode.querySelector(`.film-card__id`).textContent;
         switch (evt.currentTarget.classList[2]) {
           case `film-card__controls-item--add-to-watchlist`:
