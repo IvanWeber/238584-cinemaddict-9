@@ -89,6 +89,7 @@ export default class MovieController {
           initiateStopEventPropagationOnKeydownEscOnCommentInput(filmDetailsCommentInput);
           initiatePopupControls();
           initiateUserRatingInputs();
+          initiateSmileInserting();
           filmDetailsPopup.classList.remove(`visually-hidden`);
         };
         card.addEventListener(`click`, cardClickHandler);
@@ -147,11 +148,33 @@ export default class MovieController {
       const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
       const id = filmDetailsPopup.querySelector(`.film_id`).textContent;
       const userRatingInputs = filmDetailsPopup.querySelectorAll(`.film-details__user-rating-input`);
+
       const userRatingInputClickHandler = (evt) => {
         this._films[id].userRating = evt.currentTarget.value;
       };
+
       userRatingInputs.forEach((input) => {
         input.addEventListener(`click`, userRatingInputClickHandler);
+      });
+    };
+
+    const initiateSmileInserting = () => {
+      const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
+      const smileBox = filmDetailsPopup.querySelector(`.film-details__add-emoji-label`);
+      const smiles = filmDetailsPopup.querySelectorAll(`.film-details__emoji-label`);
+
+      const smileClickHandler = (evt) => {
+        const chosenSmile = evt.currentTarget.querySelector(`img`).cloneNode(true);
+        if (smileBox.querySelector(`img`)) {
+          smileBox.removeChild(smileBox.querySelector(`img`));
+        }
+        smileBox.appendChild(chosenSmile);
+        smileBox.firstChild.height = 55;
+        smileBox.firstChild.width = 55;
+      };
+
+      smiles.forEach((smile) => {
+        smile.addEventListener(`click`, smileClickHandler);
       });
     };
 
