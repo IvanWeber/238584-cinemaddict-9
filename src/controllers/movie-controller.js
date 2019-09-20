@@ -40,7 +40,7 @@ export default class MovieController {
   init() {
     const siteBodyElement = this._container;
     // Инициализация событий открытия попапа по нажатию на карточку фильма и его закрытия по нажатию на кнопку закрытия
-    const filmCards = siteBodyElement.querySelectorAll(`.film-card`);
+    let filmCards = siteBodyElement.querySelectorAll(`.film-card`);
 
     const initiatePopupOpenOnClickFilmCard = () => {
       filmCards.forEach((card) => {
@@ -66,6 +66,13 @@ export default class MovieController {
           if (card.querySelector(`.film-card__controls-item--mark-as-watched`).classList[3] === `selected-category`) {
             this._films[card.querySelector(`.film-card__id`).textContent].isAlreadyWatched = true;
             filmDetailsControlInputs[1].checked = true;
+            filmDetailsPopup.querySelector(`.form-details__middle-container`).classList.remove(`visually-hidden`);
+            const ratingValues = filmDetailsPopup.querySelectorAll(`.film-details__user-rating-input`);
+            ratingValues.forEach((el) => {
+              if (this._films[elementIndex].userRating == el.value) {
+                el.checked = true;
+              }
+            });
           } else {
             this._films[card.querySelector(`.film-card__id`).textContent].isAlreadyWatched = false;
             filmDetailsControlInputs[1].checked = false;
@@ -81,6 +88,7 @@ export default class MovieController {
           initiatePopupCloseOnKeydownEsc(filmDetailsPopup);
           initiateStopEventPropagationOnKeydownEscOnCommentInput(filmDetailsCommentInput);
           initiatePopupControls();
+          initiateUserRatingInputs();
           filmDetailsPopup.classList.remove(`visually-hidden`);
         };
         card.addEventListener(`click`, cardClickHandler);
@@ -88,10 +96,9 @@ export default class MovieController {
     };
 
     const initiatePopupControls = () => {
-      const filmCards = siteBodyElement.querySelectorAll(`.film-card`);
+      filmCards = siteBodyElement.querySelectorAll(`.film-card`);
       const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
       const filmDetailsControlLabels = filmDetailsPopup.querySelectorAll(`.film-details__control-label`);
-      const filmDetailsControlInputs = filmDetailsPopup.querySelectorAll(`.film-details__control-input`);
       const id = filmDetailsPopup.querySelector(`.film_id`).textContent;
       let targetFilmCard = null;
       filmCards.forEach((film) => {
@@ -117,6 +124,7 @@ export default class MovieController {
             } else {
               targetFilmCard.querySelector(`.film-card__controls-item--mark-as-watched`).classList.add(`selected-category`);
               pageControllerObj.onDataChange(this._films, id, `isAlreadyWatched`, true);
+              filmDetailsPopup.querySelector(`.form-details__middle-container`).classList.remove(`visually-hidden`);
             }
             break;
           case `film-details__control-label--favorite`:
@@ -132,6 +140,18 @@ export default class MovieController {
       };
       filmDetailsControlLabels.forEach((control) => {
         control.addEventListener(`click`, controlClickHandler);
+      });
+    };
+
+    const initiateUserRatingInputs = () => {
+      const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
+      const id = filmDetailsPopup.querySelector(`.film_id`).textContent;
+      const userRatingInputs = filmDetailsPopup.querySelectorAll(`.film-details__user-rating-input`);
+      const userRatingInputClickHandler = (evt) => {
+        this._films[id].userRating = evt.currentTarget.value;
+      };
+      userRatingInputs.forEach((input) => {
+        input.addEventListener(`click`, userRatingInputClickHandler);
       });
     };
 

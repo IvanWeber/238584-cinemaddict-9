@@ -15,7 +15,7 @@ export const getMock = () => {
     `Comedy`,
     `Cartoon`,
   ];
-  return {
+  let mock = {
     title: [
       `The Dance of Life`,
       `Sagebrush Trail`,
@@ -120,8 +120,29 @@ export const getMock = () => {
       `./images/posters/santa-claus-conquers-the-martians.jpg`,
       `./images/posters/the-dance-of-life.jpg`,
       `./images/posters/the-man-with-the-golden-arm.jpg`,
-    ][Math.round(Math.random() * 4)]
+    ][Math.round(Math.random() * 4)],
   };
+  const getUserRating = () => {
+    if (mock.isAlreadyWatched) {
+      return [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+      ][Math.round(Math.random() * 8)];
+    } else {
+      return null;
+    }
+  };
+
+  mock.userRating = getUserRating();
+
+  return mock;
 };
 
 // Получение массива фильмов

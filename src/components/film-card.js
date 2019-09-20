@@ -6,6 +6,7 @@ export default class FilmCard extends AbstractComponent {
     this._title = args.title;
     this._description = args.description;
     this._rating = args.rating;
+    this._userRating = args._userRating;
     this._runTime = args.runTime;
     this._genres = args.genres;
     this._releaseDate = args.releaseDate;
