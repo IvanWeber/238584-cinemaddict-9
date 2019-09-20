@@ -69,7 +69,7 @@ export default class MovieController {
             filmDetailsPopup.querySelector(`.form-details__middle-container`).classList.remove(`visually-hidden`);
             const ratingValues = filmDetailsPopup.querySelectorAll(`.film-details__user-rating-input`);
             ratingValues.forEach((el) => {
-              if (this._films[elementIndex].userRating == el.value) {
+              if (Number(this._films[elementIndex].userRating) === Number(el.value)) {
                 el.checked = true;
               }
             });

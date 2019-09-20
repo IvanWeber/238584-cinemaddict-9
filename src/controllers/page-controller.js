@@ -38,7 +38,6 @@ export default class PageController {
 
   init() {
     const NUMBER_OF_FILMS_IN_MAIN_LIST = 12;
-    const NUMBER_OF_FILMS_IN_EXTRA_LIST = 2;
 
     const sortObj = new Sort();
     const searchObj = new Search();
