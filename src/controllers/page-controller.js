@@ -87,11 +87,9 @@ export default class PageController {
     this._films.forEach((film) => {
       filmsToBeSortedByNumberOfComments.push(film);
     });
-    console.log(filmsToBeSortedByNumberOfComments);
     filmsToBeSortedByNumberOfComments.sort((a, b) => b.comments.length - a.comments.length);
     for (let i = 0; i < 2; i++) {
       let filmCardObj = new FilmCard(filmsToBeSortedByNumberOfComments[i]);
-      console.log(filmCardObj.getElement());
       this.render(siteFilmsExtraListElements[1].querySelector(`.films-list__container`), filmCardObj.getElement(), Position.BEFOREEND);
       // console.log(filmsToBeSortedByNumberOfComments[i]);
     }

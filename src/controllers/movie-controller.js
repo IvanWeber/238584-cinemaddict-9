@@ -54,12 +54,84 @@ export default class MovieController {
           const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
           const closeButton = filmDetailsPopup.querySelector(`.film-details__close-btn`);
           const filmDetailsCommentInput = filmDetailsPopup.querySelector(`.film-details__comment-input`);
+          const filmDetailsControlInputs = filmDetailsPopup.querySelectorAll(`.film-details__control-input`);
+          // Подсвечиваем контролы категорий
+          if (card.querySelector(`.film-card__controls-item--add-to-watchlist`).classList[3] === `selected-category`) {
+            this._films[card.querySelector(`.film-card__id`).textContent].isAddToWatchlist = true;
+            filmDetailsControlInputs[0].checked = true;
+          } else {
+            this._films[card.querySelector(`.film-card__id`).textContent].isAddToWatchlist = false;
+            filmDetailsControlInputs[0].checked = false;
+          }
+          if (card.querySelector(`.film-card__controls-item--mark-as-watched`).classList[3] === `selected-category`) {
+            this._films[card.querySelector(`.film-card__id`).textContent].isAlreadyWatched = true;
+            filmDetailsControlInputs[1].checked = true;
+          } else {
+            this._films[card.querySelector(`.film-card__id`).textContent].isAlreadyWatched = false;
+            filmDetailsControlInputs[1].checked = false;
+          }
+          if (card.querySelector(`.film-card__controls-item--favorite`).classList[3] === `selected-category`) {
+            this._films[card.querySelector(`.film-card__id`).textContent].isAddToFavorites = true;
+            filmDetailsControlInputs[2].checked = true;
+          } else {
+            this._films[card.querySelector(`.film-card__id`).textContent].isAddToFavorites = false;
+            filmDetailsControlInputs[2].checked = false;
+          }
           initiatePopupCloseOnClickCloseButton(filmDetailsPopup, closeButton);
           initiatePopupCloseOnKeydownEsc(filmDetailsPopup);
           initiateStopEventPropagationOnKeydownEscOnCommentInput(filmDetailsCommentInput);
+          initiatePopupControls();
           filmDetailsPopup.classList.remove(`visually-hidden`);
         };
         card.addEventListener(`click`, cardClickHandler);
+      });
+    };
+
+    const initiatePopupControls = () => {
+      const filmCards = siteBodyElement.querySelectorAll(`.film-card`);
+      const filmDetailsPopup = siteBodyElement.querySelector(`.film-details`);
+      const filmDetailsControlLabels = filmDetailsPopup.querySelectorAll(`.film-details__control-label`);
+      const filmDetailsControlInputs = filmDetailsPopup.querySelectorAll(`.film-details__control-input`);
+      const id = filmDetailsPopup.querySelector(`.film_id`).textContent;
+      let targetFilmCard = null;
+      filmCards.forEach((film) => {
+        if (film.querySelector(`.film-card__id`).textContent === id) {
+          targetFilmCard = film;
+        }
+      });
+      const controlClickHandler = (evt) => {
+        switch (evt.currentTarget.classList[1]) {
+          case `film-details__control-label--watchlist`:
+            if (targetFilmCard.querySelector(`.film-card__controls-item--add-to-watchlist`).classList[3] === `selected-category`) {
+              targetFilmCard.querySelector(`.film-card__controls-item--add-to-watchlist`).classList.remove(`selected-category`);
+              pageControllerObj.onDataChange(this._films, id, `isAddToWatchlist`, false);
+            } else {
+              targetFilmCard.querySelector(`.film-card__controls-item--add-to-watchlist`).classList.add(`selected-category`);
+              pageControllerObj.onDataChange(this._films, id, `isAddToWatchlist`, true);
+            }
+            break;
+          case `film-details__control-label--watched`:
+            if (targetFilmCard.querySelector(`.film-card__controls-item--mark-as-watched`).classList[3] === `selected-category`) {
+              targetFilmCard.querySelector(`.film-card__controls-item--mark-as-watched`).classList.remove(`selected-category`);
+              pageControllerObj.onDataChange(this._films, id, `isAlreadyWatched`, false);
+            } else {
+              targetFilmCard.querySelector(`.film-card__controls-item--mark-as-watched`).classList.add(`selected-category`);
+              pageControllerObj.onDataChange(this._films, id, `isAlreadyWatched`, true);
+            }
+            break;
+          case `film-details__control-label--favorite`:
+            if (targetFilmCard.querySelector(`.film-card__controls-item--favorite`).classList[3] === `selected-category`) {
+              targetFilmCard.querySelector(`.film-card__controls-item--favorite`).classList.remove(`selected-category`);
+              pageControllerObj.onDataChange(this._films, id, `isAddToFavorites`, false);
+            } else {
+              targetFilmCard.querySelector(`.film-card__controls-item--favorite`).classList.add(`selected-category`);
+              pageControllerObj.onDataChange(this._films, id, `isAddToFavorites`, true);
+            }
+            break;
+        }
+      };
+      filmDetailsControlLabels.forEach((control) => {
+        control.addEventListener(`click`, controlClickHandler);
       });
     };
 
@@ -103,7 +175,6 @@ export default class MovieController {
             if (evt.currentTarget.classList[3] === `selected-category`) {
               evt.stopPropagation();
               evt.currentTarget.classList.remove(`selected-category`);
-              // this._films[id].isAddToWatchlist = false;
               pageControllerObj.onDataChange(this._films, id, `isAddToWatchlist`, false);
             } else {
               evt.stopPropagation();
